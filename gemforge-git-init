@@ -1,0 +1,13 @@
+#!/bin/bash
+set -o errexit
+
+##
+# Re-initialize the current directory's git repo.
+# WARNING: this is a very dangerous command!
+##
+
+rm -rf .git
+git init
+git add *
+git commit -m 'first' -a
+gem-pub 'publish'

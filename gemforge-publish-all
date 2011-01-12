@@ -1,0 +1,23 @@
+#!/bin/sh
+set -o errexit
+
+##
+# Publish all our gems.
+#
+# This lists all our gems that we're building,
+# and iterates over them calling gemforge-publish.
+#
+# Example:
+#   gemforge-publish-all "Update all license agreements"
+##
+
+for dir in /home/sixarm/github/sixarm_ruby_*/*gemspec
+do
+  gem_dir=`dirname $dir`
+  echo $gem_dir
+  cd $gem_dir
+  echo `pwd`
+  gemforge-publish "$1"
+done
+
+

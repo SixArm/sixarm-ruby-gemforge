@@ -1,0 +1,15 @@
+#!/bin/sh
+set -o errexit
+
+##
+# Create a security checksum for our gem.
+# We use SHA 512 for very high security.
+#
+# Example:
+#   gemforge-checksum mygem-1.2.3
+#   => mygem-1.2.3-sha512.txt
+##
+
+gem_name_version=$1
+sha512sum $gem_name_version.gem > $gem_name_version-sha512.txt
+

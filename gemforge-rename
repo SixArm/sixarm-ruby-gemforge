@@ -1,0 +1,38 @@
+#!/bin/sh
+set -o errexit
+
+##
+# Move a ruby gem
+##
+
+pwd=`pwd`
+prefix='rubygem'
+basename=`basename $pwd`
+old=${prefix}_$basename
+new=$basename
+github_project_name=$old
+
+echo old $old 
+echo new $new
+
+rm *.sha512.txt
+rm *.gem
+mv $old.gemspec $new.gemspec
+
+cd lib
+mv $old.rb $new.rb
+cd ..
+
+cd test/unit
+mv ${old}_test.rb ${new}_test.rb
+cd ../..
+
+find -type f | grep -v ".git" | xargs perl -p -i -e 's/\brubygem_//;'
+
+rm -rf .git; git init; git add *; git commit -m 'first'
+git remote add origin git@github.com:sixarm/$github_project_name.git
+git push origin master
+
+#cd ..
+#mv $basename ${prefix}_$basename
+#cd ${prefix}_$basename

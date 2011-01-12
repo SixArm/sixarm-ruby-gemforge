@@ -1,0 +1,24 @@
+#!/bin/sh
+set -o errexit
+
+##
+#  DEPRECATED - These are commands for running our own gem server.
+##
+
+#gem_generate_directory=/www/html
+
+# Make the remote directory, if needed
+#$ssh "mkdir -p $gem_generate_directory/gems/$gem_name"
+
+# Copy all the files to the equivalent directory
+#rsync -e "ssh -p $port" --recursive --hard-links --executability --delete --times * $user@$host:$gem_generate_directory/gems/$gem_name/
+#$ssh "chmod +r -R $gem_generate_directory/gems/$gem_name/"
+
+# Copy the gem to the gem directory
+#echo "rsync..."
+#rsync -e "ssh -p $port" *.gem -t $user@$host:$gem_generate_directory/gems/
+
+# Generate the gem files
+#echo "generate..."
+#$ssh "gem generate --backtrace --directory=$gem_generate_directory/"
+

@@ -1,0 +1,25 @@
+#!/bin/sh
+set -o errexit
+
+## 
+# Create documentation files for our gem.
+##
+
+# Remove any existing doc files
+git rm -fr doc || true
+rm -fr doc || true
+
+# Create new yard doc files
+yardoc lib/**/*.rb
+chmod +r -R doc/
+
+
+# Older rdoc formats
+# see /usr/local/lib/ruby/gems/1.9.1/gems/rdoc-2.4.2/lib/rdoc/generator/sixarm.rb
+# seee /usr/local/lib/ruby/1.9.1/rdoc/generator/html/sixarm.rb
+
+#rdoc_template=sixarm
+#rdoc --all  --quiet --template=$rdoc_template --line-numbers --title $gem_name --main lib/$basename.rb
+#rdoc  --all --quiet --line-numbers --inline-source --title $gem_name --main lib/
+
+

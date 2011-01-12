@@ -1,0 +1,42 @@
+
+= SixArm.com Ruby Gem Install Notes
+
+To install this gem:
+
+  gem install {name}
+
+
+== High Security Options
+
+To install this gem with a trust policy and high security:
+
+  wget http://sixarm.com/sixarm.pem
+  gem cert --add sixarm.pem   
+  gem install {name} --test --trust-policy HighSecurity
+
+
+== What is a Trust Policy? What is High Security?
+
+A Trust Policy with High Security is how you can guarantee 
+that a gem is tamper-proof and comes from the real developers.
+
+Our developers use a digital signature to sign all our gems,
+and the gem command uses a digital certificate to verify us.
+
+To see your gem certificate list:
+
+  sudo gem cert --list
+
+Our cert looks like this:
+
+  /C=US/ST=California/L=San Francisco/O=SixArm/CN=sixarm.com
+
+To learn more about the gem trust policy and high security,
+see the gem guide: http://www.rubygems.org/read/chapter/21
+
+
+== Feedback
+
+Do you have any questions, comments, suggestions, or feedback?
+Let us know, we're happy to help. Our email is sixarm@sixarm.com
+

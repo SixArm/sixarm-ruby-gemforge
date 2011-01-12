@@ -1,0 +1,49 @@
+#!/bin/bash
+set -o errexit
+
+##
+# Do simple checking of our gem's files to ensure
+# that everything looks good before we publish.
+##
+
+gem_name=`gemspec-cat | gemspec-to-gem-name`
+gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
+
+function die ( ) {
+   echo $@ >&2
+   exit 1
+}
+
+for path in .git INSTALL.txt LICENSE.txt README.rdoc coverage doc lib "lib/$gem_name.rb" test "test/${gem_name}_test.rb" "$gem_name.gemspec" "$gem_name_version.gem" "$gem_name_version-sha512.txt"
+do
+  [ -e "$path" ] || die "gemforge-lint $gem_name_version error -e $path"
+done
+
+file="lib/$gem_name.rb"
+
+line=sed -n '1p' $file
+[ "$line" -eq "-*- encoding: utf-8 -*-" ] || die "need line 1: -*- encoding: utf-8 -*-"
+
+line=sed -n '2p' $file
+[ "$line" -eq "" ] || die "need line 2: blank"
+
+line=sed -n '3p' $file
+[ "$line" -eq "=begin rdoc" ] || die "need line 3: begin rdoc"
+
+
+
+=begin rdoc                                                                     
+                                                                                
+= SixArm Ruby Gem » Unaccent                                                    
+                                                                                
+Author:: Joel Parker Henderson, joelparkerhenderson@gmail.com                   
+Copyright:: Copyright (c) 2006-2010 Joel Parker Henderson                       
+License:: CreativeCommons License, Non-commercial Share Alike                   
+License:: LGPL, GNU Lesser General Public License                               
+                                                                                
+Replace a string's accented characters with unaccented ASCII characters.        
+                                                                                
+This is based directly on the excellent perl module Text::Unaccent on CPAN.     
+  
+exit 0
+

@@ -1,0 +1,36 @@
+#!/bin/sh
+set -o errexit
+
+##
+# Publish our gem to our remote host, 
+# tpyically our own sixarm.com website.
+#
+# Example:
+#   cd mygem
+#   gemforge-publish-to-remote-host
+#   => signs into remote host and does a git pull
+##
+
+# Local: get the current directory's gem info
+gem_name=`gemspec-cat | gemspec-to-gem-name`
+gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
+
+# Config: destination settings for our remote host
+dst_user=sixarm
+dst_host=www.sixarm.com
+dst_path=/var/www/sixarm.com/html/git
+dst_port=22
+git_link=git@github.com:SixArm/$gem_name.git
+
+# Config: $ssh runs a command on the remote host
+ssh="ssh -p $dst_port $dst_user@$dst_host"
+
+# Remote: make the remote directory, if needed
+$ssh "mkdir -p $dst_path"
+
+# Remote: clone the github project, if needed
+$ssh "[ -e $dst_path/$gem_name ] || git clone $git_link "
+
+# Remote: git pull
+$ssh "cd $dst_path/$gem_name && git pull"
+

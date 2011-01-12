@@ -1,0 +1,31 @@
+#!/bin/sh
+set -o errexit
+
+##
+# Ruby gem:create a new gem directory structure and copy in some starter files                                             
+##
+
+pwd=`pwd`
+basename=`basename $pwd`
+source='/home/sixarm/github/sixarm_ruby_gem_scripts/gem-new-skel'
+camelize=`camelize $basename`
+
+mkdir -p lib/$basename
+mkdir -p test/$basename
+mkdir -p coverage
+mkdir -p doc
+cp -i $source/INSTALL.txt . 
+cp -i $source/README.rdoc .
+cp -i $source/gemspec $basename.gemspec
+cp -i $source/lib/foo.rb lib/$basename.rb
+
+cp -i $source/test/foo_test.rb test/${basename}_test.rb
+sed -i "s/{name}/$basename/;s/{camelize}/$camelize/" INSTALL.txt $basename.gemspec  lib/$basename.rb test/${basename}_test.rb
+
+git init
+git add *
+git commit -m 'first' -a
+
+
+
+

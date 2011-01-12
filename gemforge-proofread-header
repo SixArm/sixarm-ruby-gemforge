@@ -1,0 +1,27 @@
+#!/bin/bash
+set -o errexit
+
+##
+# Do simple checking of our gem's header text
+# to ensure that everything is in a good format.
+#
+# The header is the leading lines of the file lib/*.rb 
+#
+# The header should be:
+#   # -*- encoding: utf-8 -*-
+#   =begin rdoc
+#   
+#   = SixArm Ruby Gem » ...
+#   
+#   Author:: ...
+#   Copyright:: ...
+#   License:: ...
+#  
+#   Summary ...
+#   
+#   Description ...
+#
+##
+
+file="$1"
+pcregrep -q -M -e "^# -\*- encoding: utf-8 -\*-\n=begin rdoc\n\n= SixArm Ruby Gem » .*\n\nAuthor::.*\nCopyright::.*\nLicense::.*\n\n\w+.*\n\n\w+.*\n\n" "$file" && echo "gemforge-proofread-header $file success" || echo "gemforge-proofread-header $file failure"

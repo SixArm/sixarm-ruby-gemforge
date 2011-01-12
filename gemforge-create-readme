@@ -1,0 +1,17 @@
+#!/bin/sh
+set -o errexit
+
+##
+# Create a README.rdoc for our gem,
+# by copying the header comments 
+# from our gem's main file.
+#
+# Example:
+#   gemforge-create-readme mygem
+#   => README.rdoc file
+##
+
+gem_name=$1
+ruby-header-comments-to-rdoc lib/$gem_name.rb > README.rdoc
+
+

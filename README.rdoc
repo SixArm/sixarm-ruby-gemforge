@@ -1,0 +1,14 @@
+These are Ruby gem tools for building our SixArm.com gems.
+
+There are three kinds of tools here:
+
+  - The "gemspec" scripts that are generally useful for
+    extracting simple information from a gemspec stream.
+
+  - The "gemforge" scripts that tend to be specific to our setup.
+    These include things like publishing our gems to our site.
+
+  - Various misc scripts, such as a ruby script that can
+    convert a file's first Ruby comment to a README.rdoc file.
+
+You can customize these however you like for your own systems.
