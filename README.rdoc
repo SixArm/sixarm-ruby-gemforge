@@ -1,4 +1,4 @@
-These are Ruby gem tools for building our SixArm.com gems.
+= SixArm.com » Ruby » Gem tools for building our SixArm.com gems
 
 These require scripts in sixarm_ruby_gem_scripts.
 

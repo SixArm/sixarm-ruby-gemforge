@@ -1,1 +1,11 @@
-README
+
+= SixArm Ruby Gem
+
+Author:: Joel Parker Henderson, joel@joelparkerhenderson.com
+Copyright:: Copyright (c) 2010-2011 Joel Parker Henderson
+License:: CreativeCommons License, Non-commercial Share Alike
+License:: LGPL, GNU Lesser General Public License
+License:: MIT License
+License:: Ruby License
+
+

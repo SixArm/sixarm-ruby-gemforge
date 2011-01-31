@@ -7,8 +7,8 @@ set -o errexit
 
 pwd=`pwd`
 basename=`basename $pwd`
-source='/home/sixarm/github/sixarm_ruby_gem_scripts/gem-new-skel'
 camelize=`camelize $basename`
+source='/home/sixarm/github/sixarm_ruby_gemforge/gemforge-new-templates'
 
 mkdir -p lib/$basename
 mkdir -p test/$basename
