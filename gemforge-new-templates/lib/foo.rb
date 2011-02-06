@@ -1,7 +1,8 @@
-# -*- encoding: utf-8 -*-
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
 =begin rdoc
 
-= SixArm Ruby Gem »
+= SixArm » Ruby » 
 
 Author:: Joel Parker Henderson, joel@sixarm.com
 Copyright:: Copyright (c) 2009-2010 Joel Parker Henderson
