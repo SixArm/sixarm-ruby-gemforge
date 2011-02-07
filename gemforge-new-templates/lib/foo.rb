@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 =begin rdoc
 
-= SixArm » Ruby » 
+= SixArm.com » Ruby » 
 
 Author:: Joel Parker Henderson, joel@sixarm.com
-Copyright:: Copyright (c) 2009-2010 Joel Parker Henderson
-License:: Your choice of BSD, MIT, LGPL, or CreativeCommons Non-commercial Share Alike
+Copyright:: Copyright (c) 2009-2011 Joel Parker Henderson
+License:: See LICENSE.txt file
 
 Summary line...
 
