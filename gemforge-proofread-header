@@ -8,10 +8,10 @@ set -o errexit
 # The header is the leading lines of the file lib/*.rb 
 #
 # The header should be:
-#   # -*- encoding: utf-8 -*-
+#   # -*- coding: utf-8 -*-
 #   =begin rdoc
 #   
-#   = SixArm Ruby Gem » ...
+#   = SixArm.com » Ruby » ...
 #   
 #   Author:: ...
 #   Copyright:: ...
@@ -24,4 +24,4 @@ set -o errexit
 ##
 
 file="$1"
-pcregrep -q -M -e "^# -\*- encoding: utf-8 -\*-\n=begin rdoc\n\n= SixArm Ruby Gem » .*\n\nAuthor::.*\nCopyright::.*\nLicense::.*\n\n\w+.*\n\n\w+.*\n\n" "$file" && echo "gemforge-proofread-header $file success" || echo "gemforge-proofread-header $file failure"
+pcregrep -q -M -e "^# -\*- coding: utf-8 -\*-\n=begin rdoc\n\n= SixArm.com » Ruby » .*\n\nAuthor::.*\nCopyright::.*\nLicense::.*\n\n\w+.*\n\n\w+.*\n\n" "$file" && echo "gemforge-proofread-header $file success" || echo "gemforge-proofread-header $file failure"
