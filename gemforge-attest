@@ -11,6 +11,7 @@ dash_f README.rdoc
 dash_f LICENSE.txt
 dash_f INSTALL.txt
 dash_f Rakefile
+dash_f .gemtest
 
 # Gem publishing
 dash_f $name.gemspec
