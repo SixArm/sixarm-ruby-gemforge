@@ -2,23 +2,25 @@
 set -o errexit
 
 ##
-# Ruby gem:create a new gem directory structure and copy in some starter files                                             
+# Ruby gem:create a new gem directory structure and copy in some starter files                                          # Syntax:   
+#   gemforge-new my_gem_dir
 ##
 
-pwd=`pwd`
-basename=`basename $pwd`
+basename=$1
 camelize=`camelize $basename`
 source='/home/sixarm/github/sixarm_ruby_gemforge/gemforge-new-templates'
 
+mkdir $1
+cd $1
 mkdir -p lib/$basename
 mkdir -p test/$basename
-mkdir -p coverage
+mkdir -p $coverage
 mkdir -p doc
 cp -i $source/INSTALL.txt . 
 cp -i $source/README.rdoc .
+cp -i $source/LICENSE.txt .
 cp -i $source/gemspec $basename.gemspec
 cp -i $source/lib/foo.rb lib/$basename.rb
-
 cp -i $source/test/foo_test.rb test/${basename}_test.rb
 sed -i "s/{name}/$basename/;s/{camelize}/$camelize/" INSTALL.txt $basename.gemspec  lib/$basename.rb test/${basename}_test.rb
 

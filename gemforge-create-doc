@@ -10,6 +10,7 @@ git rm -fr doc || true
 rm -fr doc || true
 
 # Create new yard doc files
+mkdir doc
 yardoc lib/**/*.rb
 chmod +r -R doc/
 
