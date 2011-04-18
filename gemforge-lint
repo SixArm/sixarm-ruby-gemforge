@@ -41,7 +41,7 @@ file="test/${gem_name}_test.rb"
 file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-" 
 file_line_should_eq "$file" 2 "require 'test/unit'"
 
-grep SimpleCov $file || die "SimpleCov is missing from: $file"
+grep -q SimpleCov $file || die "SimpleCov is missing from: $file"
   
 exit 0
 
