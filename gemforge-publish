@@ -43,7 +43,6 @@ echo gemforge-publish $gem_name_version $commit_msg
 gemforge-rm-old-files
 gem build --quiet *.gemspec
 gemforge-create-checksum $gem_name_version
-gemforge-create-readme $gem_name
 gemforge-create-doc
 gemforge-lint || exit "gemforge-lint failed for gem $gem_name_version"
 
