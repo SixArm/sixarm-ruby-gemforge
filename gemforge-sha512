@@ -1,0 +1,24 @@
+#!/bin/sh
+set -o errexit
+
+##
+# Create a security checksum for our gem.
+# We use SHA 512 for very high security.
+#
+# Example:
+#   gemforge-sha512
+#   => mygem-1.2.3-sha512.txt
+##
+
+function die ( ) {
+   echo $@ >&2
+   exit 1
+}
+
+gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
+input_file=$gem_name_version.gem
+output_file=$gem_name_version-sha512.txt
+
+[ -e "$input_file" ] || die "Input file is missing: $input_file"
+sha512sum "$input_file" > "$output_file"
+
