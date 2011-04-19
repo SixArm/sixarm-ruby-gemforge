@@ -35,7 +35,7 @@ file="README.rdoc"
 grep -q "^Author:: Joel Parker Henderson, joel@joelparkerhenderson.com" $file || die "Author is wrong"
 grep -q "^Copyright:: Copyright (c) .*2011 Joel Parker Henderson" $file || die "Copyright is wrong"
 grep -q "^License:: See LICENSE.txt file" $file || die "License is wrong"      
-grep -q "^= SixArm.com » Ruby » " || die "Missing title: = SixArm.com » Ruby » "
+grep -q "^= SixArm.com » Ruby » " $file || die "Missing title: = SixArm.com » Ruby » "
 
 file="lib/${gem_name}.rb"
 file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
@@ -47,7 +47,6 @@ file_line_should_eq "$file" 5 ""
 file="test/${gem_name}_test.rb"
 file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-" 
 file_line_should_eq "$file" 2 "require 'test/unit'"
-
 grep -q SimpleCov $file || die "SimpleCov is missing from: $file"
   
 exit 0
