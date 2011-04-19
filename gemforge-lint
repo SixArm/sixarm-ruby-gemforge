@@ -31,15 +31,18 @@ do
   [ -e "$path" ] || die "gemforge-lint $gem_name_version error -e $path"
 done
 
-file="lib/${gem_name}.rb"
-file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
-file_line_should_eq "$file" 2 ""
-file_line_should_eq "$file" 3 "=begin rdoc" 
-file_line_should_eq "$file" 4 ""
+file="README.rdoc"
 grep -q "^Author:: Joel Parker Henderson, joel@joelparkerhenderson.com" $file || die "Author is wrong"
 grep -q "^Copyright:: Copyright (c) .*2011 Joel Parker Henderson" $file || die "Copyright is wrong"
 grep -q "^License:: See LICENSE.txt file" $file || die "License is wrong"      
 grep -q "^= SixArm.com » Ruby » " || die "Missing title: = SixArm.com » Ruby » "
+
+file="lib/${gem_name}.rb"
+file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
+file_line_should_eq "$file" 2 "=begin rdoc" 
+file_line_should_eq "$file" 3 "Please see README.rdoc"
+file_line_should_eq "$file" 4 "=end"
+file_line_should_eq "$file" 5 ""
                                             
 file="test/${gem_name}_test.rb"
 file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-" 
