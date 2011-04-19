@@ -16,8 +16,8 @@ function die ( ) {
 }
 
 gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
-input_file=$gem_name_version.gem
-output_file=$gem_name_version-sha512.txt
+input_file="$gem_name_version.gem"
+output_file="$gem_name_version-sha512.txt"
 
 [ -e "$input_file" ] || die "Input file is missing: $input_file"
 sha512sum "$input_file" > "$output_file"
