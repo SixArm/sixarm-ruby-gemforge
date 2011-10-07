@@ -8,7 +8,7 @@ set -o errexit
 # We do it this way because it's safer than running the commands as is.
 #
 # Example:
-#   cd ~sixarm/github/
+#   cd ~sixarm/git/
 #   gemforge-uninstall-older-versions-generator
 #   => list of commands to run to uninstall all our gems
 ##

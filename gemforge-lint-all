@@ -2,13 +2,13 @@
 set -o errexit
 
 ##
-# Publish all our gems.
+# Lint all our gems.
 #
 # This lists all our gems that we're building,
-# and iterates over them calling gemforge-publish.
+# and iterates over them calling gemforge-link.
 #
 # Example:
-#   gemforge-publish-all "Update all license agreements"
+#   gemforge-lint-all 
 ##
 
 for dir in /home/sixarm/git/sixarm_ruby_*/*gemspec
@@ -17,7 +17,6 @@ do
   echo $gem_dir
   cd $gem_dir
   echo `pwd`
-  gemforge-publish "$1"
+  gemforge-lint
 done
-
 
