@@ -40,9 +40,9 @@ file="VERSION"
 grep -q "^$gem_version$" $file || die "Version is wrong in file:$file"
 
 file="README.rdoc"
-grep -q "^Author:: Joel Parker Henderson, joel@joelparkerhenderson.com" $file || grep -q "^Author:: Found on the internet by Joel Parker Henderson, joel@joelparkerhenderson.com" $file || die "Author is wrong"
-grep -q "^Copyright:: Copyright (c) .*2011 Joel Parker Henderson" $file || grep -q "^Copyright:: Copyright the original author; please email me if you know who wrote this" || die "Copyright is wrong"
-grep -q "^License:: See LICENSE.txt file" $file || die "License is wrong, should say: License:: See LICENSE.txt file"      
+grep -q '^Author::\( Joel Parker Henderson, joel@joelparkerhenderson.com\| Found on the internet by Joel Parker Henderson, joel@joelparkerhenderson.com\)' $file || die "README.rdoc author is wrong"
+grep -q '^Copyright::\( Copyright (c) .*2011 Joel Parker Henderson\| Copyright the original author; please email me if you know who wrote this\)' $file || die "README.rdoc copyright is wrong"
+grep -q '^License::\( See LICENSE.txt file\| Unknown; please email me if you know the original license\)' $file || die "README.rdoc license is wrong, should say: License:: See LICENSE.txt file"
 grep -q "^= SixArm.com » Ruby » " $file || die "Missing title: = SixArm.com » Ruby » "
 
 file="lib/${gem_name}.rb"
