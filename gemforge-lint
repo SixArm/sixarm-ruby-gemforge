@@ -27,7 +27,7 @@ function file_line_should_eq {
   fi
 }
 
-for path in ".document" ".git" ".gitignore" ".rspec" "CHANGELOG.txt" "INSTALL.txt" "LICENSE.txt" "README.rdoc" "VERSION" "coverage" "coverage/assets" "coverage/index.html" "doc" "lib" "lib/${gem_name}.rb" test "test/${gem_name}_test.rb" "$gem_name.gemspec" "$gem_name_version.gem" "$gem_name_version-sha512.txt"
+for path in ".document" ".gemtest" ".git" ".gitignore" ".rspec" "CHANGELOG.txt" "INSTALL.txt" "LICENSE.txt" "Rakefile" "README.rdoc" "VERSION" "coverage" "coverage/assets" "coverage/index.html" "doc" "lib" "lib/${gem_name}.rb" test "test/${gem_name}_test.rb" "$gem_name.gemspec" "$gem_name_version.gem" "$gem_name_version-sha512.txt"
 do
   [ -e "$path" ] || die "gemforge-lint $gem_name_version error -e $path"
 done
