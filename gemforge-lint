@@ -40,8 +40,8 @@ file="VERSION"
 grep -q "^$gem_version$" $file || die "Version is wrong in file:$file"
 
 file="README.rdoc"
-grep -q "^Author:: Joel Parker Henderson, joel@joelparkerhenderson.com" $file || die "Author is wrong"
-grep -q "^Copyright:: Copyright (c) .*2011 Joel Parker Henderson" $file || die "Copyright is wrong"
+grep -q "^Author:: Joel Parker Henderson, joel@joelparkerhenderson.com" $file || grep -q "^Author:: Found on the internet by Joel Parker Henderson, joel@joelparkerhenderson.com" $file || die "Author is wrong"
+grep -q "^Copyright:: Copyright (c) .*2011 Joel Parker Henderson" $file || grep -q "^Copyright:: Copyright the original author; please email me if you know who wrote this" || die "Copyright is wrong"
 grep -q "^License:: See LICENSE.txt file" $file || die "License is wrong, should say: License:: See LICENSE.txt file"      
 grep -q "^= SixArm.com » Ruby » " $file || die "Missing title: = SixArm.com » Ruby » "
 
@@ -57,7 +57,5 @@ file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
 file_line_should_eq "$file" 2 "require 'test/unit'"
 grep -q SimpleCov $file || die "SimpleCov is missing from: $file"
 
-
-  
 exit 0
 
