@@ -27,7 +27,7 @@ function file_line_should_eq {
   fi
 }
 
-for path in ".document" ".gemtest" ".git" ".gitignore" ".rspec" "CHANGELOG.txt" "INSTALL.txt" "LICENSE.txt" "Rakefile" "README.rdoc" "VERSION" "coverage" "coverage/assets" "coverage/index.html" "doc" "lib" "lib/${gem_name}.rb" test "test/${gem_name}_test.rb" "$gem_name.gemspec" "$gem_name_version.gem" "$gem_name_version-sha512.txt"
+for path in ".document" ".gemtest" ".git" ".gitignore" ".rspec" "CHANGELOG.txt" "INSTALL.txt" "LICENSE.txt" "Rakefile" "README.md" "VERSION" "coverage" "coverage/assets" "coverage/index.html" "doc" "lib" "lib/${gem_name}.rb" test "test/${gem_name}_test.rb" "$gem_name.gemspec" "$gem_name_version.gem" "$gem_name_version-sha512.txt"
 do
   [ -e "$path" ] || die "gemforge-lint $gem_name_version error -e $path"
 done
@@ -39,11 +39,18 @@ grep -q "\[.*\".gemtest\", .*\"CHANGELOG.txt\", .*\"INSTALL.txt\", .*\"LICENSE.t
 file="VERSION"
 grep -q "^$gem_version$" $file || die "Version is wrong in file:$file"
 
-file="README.rdoc"
-grep -q '^Author::\( Joel Parker Henderson, joel@joelparkerhenderson.com\| Found on the internet by Joel Parker Henderson, joel@joelparkerhenderson.com\)' $file || die "README.rdoc author is wrong"
-grep -q '^Copyright::\( Copyright (c) .*2013 Joel Parker Henderson\| Copyright the original author; please email me if you know who wrote this\)' $file || die "README.rdoc copyright is wrong"
-grep -q '^License::\( See LICENSE.txt file\| Unknown; please email me if you know the original license\)' $file || die "README.rdoc license is wrong, should say: License:: See LICENSE.txt file"
-grep -q "^= SixArm.com » Ruby » " $file || die "Missing title: = SixArm.com » Ruby » "
+file="README.md"
+grep -q "^# SixArm.com » Ruby » <br> " $file || die "$file missing headline: ## SixArm.com » Ruby » <br> "
+grep -q "^* Docs: <http://sixarm.com/$gem_name/doc/>  " $file || die "$file docs"
+grep -q "^* Repo: <http://github.com/sixarm/$gem_name>  " $file || die "$file repo"
+grep -q "^* Email: Joel Parker Henderson, <joel@sixarm.com>" $file || die "$file mail"
+grep -q "^### Introduction" $file || die "$file introduction"
+grep -q "^For docs go to <http://sixarm.com/sixarm_ruby_rexml/doc/>" $file || die "$file footer docs link"
+
+file="LICENSE.txt"
+#grep -q '^Author::\( Joel Parker Henderson, joel@joelparkerhenderson.com\| Found on the internet by Joel Parker Henderson, joel@joelparkerhenderson.com\)' $file || die "$file author is wrong"
+grep -q '^LICENSE AND COPYRIGHT' $file || die "$file title is wrong"
+grep -q '^\(Copyright (c) .*2013 Joel Parker Henderson\| Copyright the original author; please email me if you know who wrote this\)' $file || die "$file copyright is wrong"
 
 file="lib/${gem_name}.rb"
 file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"

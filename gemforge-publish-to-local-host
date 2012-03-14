@@ -16,16 +16,14 @@ gem_name=`gemspec-cat | gemspec-to-gem-name`
 gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
 
 # Where on the local host to put the gem directory
-gem_generate_directory=/var/www/sixarm/html
-
-# Make the gem's directory, if needed
-mkdir -p $gem_generate_directory/gems/$gem_name
+dst=/var/www/sixarm.com/html
+gem_generate_directory=$dst/gems
 
 # Sync all the gem files
-rsync --recursive -C --hard-links --exclude='.git/' --executability --delete --times * $gem_generate_directory/gems/$gem_name/
+rsync --recursive -C --hard-links --exclude='.git/' --executability --delete --times * $dst/$gem_name/
 
-# Also, put the actual gem file one directory higher, so it can be built
-rsync *.gem $gem_generate_directory/gems/
+# Also, put the gem file in the /gems directory so it can be built
+rsync *.gem $gem_generate_directory/
 
 # Generate
 gem generate --backtrace --directory=$gem_generate_directory/

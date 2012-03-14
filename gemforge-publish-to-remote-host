@@ -18,7 +18,7 @@ gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
 # Config: destination settings for our remote host
 dst_user=sixarm
 dst_host=www.sixarm.com
-dst_path=/var/www/sixarm.com/html/git
+dst_path=/var/www/sixarm.com/html/
 dst_port=22
 git_link=git@github.com:SixArm/$gem_name.git
 
