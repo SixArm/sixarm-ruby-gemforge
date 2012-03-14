@@ -11,7 +11,7 @@ gem_name=`gemspec-cat | gemspec-to-gem-name`
 gem_version=`gemspec-cat | gemspec-to-gem-version`
 
 function die ( ) {
-   echo $@ >&2
+   echo "gemforge-lint $gem_name_version $@" >&2
    exit 1
 }
 
@@ -27,35 +27,61 @@ function file_line_should_eq {
   fi
 }
 
+### Repair
+
+# Repair via placeholders
+[ -e "CHANGELOG.txt" ] || echo "CHANGELOG" > CHANGELOG.txt
+[ -e "VERSION" ] || echo "$gem_version" > VERSION
+
+# Repair via cookie cutter
+for path in ".rspec" "LICENSE.txt" "Rakefile"
+do
+  [ -e "$path" ] || cp "/home/sixarm/git/sixarm_ruby_week/$path" .
+done
+
+# Repair via building
+[ -e "coverage" ] || gemforge-test
+[ -e "$gem_name_version.gem" ] || gemforge-build-gemspec
+[ -e "$gem_name_version-sha512.txt" ] || gemforge-sha512
+
+# Repair versions
+grep -q "^$gem_version$" VERSION || echo "$gem_version" > VERSION
+
+###
+
 for path in ".document" ".gemtest" ".git" ".gitignore" ".rspec" "CHANGELOG.txt" "INSTALL.txt" "LICENSE.txt" "Rakefile" "README.md" "VERSION" "coverage" "coverage/assets" "coverage/index.html" "doc" "lib" "lib/${gem_name}.rb" test "test/${gem_name}_test.rb" "$gem_name.gemspec" "$gem_name_version.gem" "$gem_name_version-sha512.txt"
 do
-  [ -e "$path" ] || die "gemforge-lint $gem_name_version error -e $path"
+  [ -e "$path" ] || die "-e $path"
 done
 
 file="$gem_name.gemspec"
-grep -q "top_files" $file || die "Need top_files in $file"
-grep -q "\[.*\".gemtest\", .*\"CHANGELOG.txt\", .*\"INSTALL.txt\", .*\"LICENSE.txt\", .*\"Rakefile\", .*\"README.md\",.*\"VERSION\".*\]" $file || die "Need top_files fixed in $file: [.*\".gemtest\", .*\"CHANGELOG.txt\", .*\"INSTALL.txt\", .*\"LICENSE.txt\", .*\"Rakefile\", .*\"README.rdoc\",.*\"VERSION\".*\]"
+grep -q "top_files" $file || die "$file needs top_files"
+grep -q "\[.*\".gemtest\", .*\"CHANGELOG.txt\", .*\"INSTALL.txt\", .*\"LICENSE.txt\", .*\"Rakefile\", .*\"README.md\",.*\"VERSION\".*\]" $file || die "$file needs top_files fixed: [.*\".gemtest\", .*\"CHANGELOG.txt\", .*\"INSTALL.txt\", .*\"LICENSE.txt\", .*\"Rakefile\", .*\"README.md\",.*\"VERSION\".*\]"
 
 file="VERSION"
-grep -q "^$gem_version$" $file || die "Version is wrong in file:$file"
+grep -q "^$gem_version$" $file || die "$file version is wrong"
 
 file="README.md"
 grep -q "^# SixArm.com » Ruby » <br> " $file || die "$file missing headline: ## SixArm.com » Ruby » <br> "
-grep -q "^* Docs: <http://sixarm.com/$gem_name/doc>  " $file || die "$file docs"
-grep -q "^* Repo: <http://github.com/sixarm/$gem_name>  " $file || die "$file repo"
+grep -q "^* Docs: <http://sixarm.com/$gem_name/doc>" $file || die "$file docs"
+grep -q "^* Repo: <http://github.com/sixarm/$gem_name>" $file || die "$file repo"
 grep -q "^* Email: Joel Parker Henderson, <joel@sixarm.com>" $file || die "$file mail"
 grep -q "^## Introduction" $file || die "$file introduction"
-grep -q "^For docs go to <http://sixarm.com/sixarm_ruby_rexml/doc>" $file || die "$file footer docs link"
+grep -q "^For docs go to <http://sixarm.com/$gem_name/doc>" $file || die "$file footer docs link"
+grep -q "## Quickstart" $file || die "$file quickstart"
+grep -q "^    gem install $gem_name" $file || die "$file quickstart install"
+grep -q "^    gem \"$gem_name\", \"=$gem_version\"" $file || die "$file quickstart bundler"
+grep -q "^    require \"$gem_name\"" $file || die "$file quickstart require"
 
 file="LICENSE.txt"
 #grep -q '^Author::\( Joel Parker Henderson, joel@joelparkerhenderson.com\| Found on the internet by Joel Parker Henderson, joel@joelparkerhenderson.com\)' $file || die "$file author is wrong"
-grep -q '^LICENSE AND COPYRIGHT' $file || die "$file title is wrong"
+grep -q '^LICENSE' $file || die "$file title is wrong"
 grep -q '^\(Copyright (c) .*2013 Joel Parker Henderson\| Copyright the original author; please email me if you know who wrote this\)' $file || die "$file copyright is wrong"
 
 file="lib/${gem_name}.rb"
 file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
 file_line_should_eq "$file" 2 "=begin rdoc" 
-file_line_should_eq "$file" 3 "Please see README.rdoc"
+file_line_should_eq "$file" 3 "Please see README"
 file_line_should_eq "$file" 4 "=end"
 file_line_should_eq "$file" 5 ""
                                             

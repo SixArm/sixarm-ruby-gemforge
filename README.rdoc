@@ -1,5 +1,0 @@
-= SixArm.com » Ruby » Gem tools for building our SixArm.com gems
-
-These require scripts in sixarm_ruby_gem_scripts.
-
-You can customize these however you like for your own systems.
