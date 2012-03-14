@@ -44,7 +44,7 @@ grep -q "^# SixArm.com » Ruby » <br> " $file || die "$file missing headline: #
 grep -q "^* Docs: <http://sixarm.com/$gem_name/doc>  " $file || die "$file docs"
 grep -q "^* Repo: <http://github.com/sixarm/$gem_name>  " $file || die "$file repo"
 grep -q "^* Email: Joel Parker Henderson, <joel@sixarm.com>" $file || die "$file mail"
-grep -q "^### Introduction" $file || die "$file introduction"
+grep -q "^## Introduction" $file || die "$file introduction"
 grep -q "^For docs go to <http://sixarm.com/sixarm_ruby_rexml/doc>" $file || die "$file footer docs link"
 
 file="LICENSE.txt"
