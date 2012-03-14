@@ -1,0 +1,9 @@
+#!/bin/bash
+set -o errexit
+
+gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
+gem_name=`gemspec-cat | gemspec-to-gem-name`
+gem_version=`gemspec-cat | gemspec-to-gem-version`
+
+perl -p -i -e "s#/sixarm_ruby_/doc>#/sixarm_ruby_$gem_name/doc>#g; s#/sixarm/sixarm_ruby_>#/sixarm/sixarm_ruby_$gem_name>#; s/^    gem \"\"/    gem \"$gem_name\", \"=$gem_version\"/; s/^    gem install$/    gem install $gem_name/; s/    require \"\"/    require \"$gem_name\"/" README.md 
+
