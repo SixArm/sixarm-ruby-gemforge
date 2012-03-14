@@ -34,7 +34,7 @@ done
 
 file="$gem_name.gemspec"
 grep -q "top_files" $file || die "Need top_files in $file"
-grep -q "\[.*\".gemtest\", .*\"CHANGELOG.txt\", .*\"INSTALL.txt\", .*\"LICENSE.txt\", .*\"Rakefile\", .*\"README.rdoc\",.*\"VERSION\".*\]" $file || die "Need top_files fixed in $file: [.*\".gemtest\", .*\"CHANGELOG.txt\", .*\"INSTALL.txt\", .*\"LICENSE.txt\", .*\"Rakefile\", .*\"README.rdoc\",.*\"VERSION\".*\]"
+grep -q "\[.*\".gemtest\", .*\"CHANGELOG.txt\", .*\"INSTALL.txt\", .*\"LICENSE.txt\", .*\"Rakefile\", .*\"README.md\",.*\"VERSION\".*\]" $file || die "Need top_files fixed in $file: [.*\".gemtest\", .*\"CHANGELOG.txt\", .*\"INSTALL.txt\", .*\"LICENSE.txt\", .*\"Rakefile\", .*\"README.rdoc\",.*\"VERSION\".*\]"
 
 file="VERSION"
 grep -q "^$gem_version$" $file || die "Version is wrong in file:$file"
