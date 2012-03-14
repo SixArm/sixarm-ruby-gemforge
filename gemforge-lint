@@ -41,11 +41,11 @@ grep -q "^$gem_version$" $file || die "Version is wrong in file:$file"
 
 file="README.md"
 grep -q "^# SixArm.com » Ruby » <br> " $file || die "$file missing headline: ## SixArm.com » Ruby » <br> "
-grep -q "^* Docs: <http://sixarm.com/$gem_name/doc/>  " $file || die "$file docs"
+grep -q "^* Docs: <http://sixarm.com/$gem_name/doc>  " $file || die "$file docs"
 grep -q "^* Repo: <http://github.com/sixarm/$gem_name>  " $file || die "$file repo"
 grep -q "^* Email: Joel Parker Henderson, <joel@sixarm.com>" $file || die "$file mail"
 grep -q "^### Introduction" $file || die "$file introduction"
-grep -q "^For docs go to <http://sixarm.com/sixarm_ruby_rexml/doc/>" $file || die "$file footer docs link"
+grep -q "^For docs go to <http://sixarm.com/sixarm_ruby_rexml/doc>" $file || die "$file footer docs link"
 
 file="LICENSE.txt"
 #grep -q '^Author::\( Joel Parker Henderson, joel@joelparkerhenderson.com\| Found on the internet by Joel Parker Henderson, joel@joelparkerhenderson.com\)' $file || die "$file author is wrong"
