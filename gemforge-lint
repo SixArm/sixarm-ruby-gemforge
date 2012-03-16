@@ -49,7 +49,7 @@ grep -q "^$gem_version$" VERSION || echo "$gem_version" > VERSION
 
 ###
 
-for path in ".document" ".gemtest" ".git" ".gitignore" ".rspec" "CHANGELOG.txt" "INSTALL.txt" "LICENSE.txt" "Rakefile" "README.md" "VERSION" "coverage" "coverage/assets" "coverage/index.html" "doc" "lib" "lib/${gem_name}.rb" test "test/${gem_name}_test.rb" "$gem_name.gemspec" "$gem_name_version.gem" "$gem_name_version-sha512.txt"
+for path in ".document" ".gemtest" ".git" ".rspec" "CHANGELOG.txt" "INSTALL.txt" "LICENSE.txt" "Rakefile" "README.md" "VERSION" "coverage" "coverage/assets" "coverage/index.html" "doc" "lib" "lib/${gem_name}.rb" test "test/${gem_name}_test.rb" "$gem_name.gemspec" "$gem_name_version.gem" "$gem_name_version-sha512.txt"
 do
   [ -e "$path" ] || die "-e $path"
 done
