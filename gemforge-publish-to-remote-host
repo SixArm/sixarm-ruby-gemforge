@@ -19,18 +19,15 @@ gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
 dst_user=sixarm
 dst_host=www.sixarm.com
 dst_path=/var/www/sixarm.com/html/
+dst_path_gem_name="$dst_path/$gem_name"
 dst_port=22
-git_link=git@github.com:SixArm/$gem_name.git
+git_deploy_link=git://github.com/SixArm/$gem_name.git
 
 # Config: $ssh runs a command on the remote host
 ssh="ssh -p $dst_port $dst_user@$dst_host"
 
-# Remote: make the remote directory, if needed
-$ssh "mkdir -p $dst_path"
-
+# Remote: make the remote directory, if needed.
 # Remote: clone the github project, if needed
-$ssh "[ -e $dst_path/$gem_name ] || git clone $git_link "
-
 # Remote: git pull
-$ssh "cd $dst_path/$gem_name && git pull"
+$ssh "mkdir -p $dst_path; [ -e $dst_path_gem_name ] || git clone $git_deploy_link $dst_path_gem_name; cd $dst_path_gem_name && git pull"
 
