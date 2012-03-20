@@ -99,8 +99,8 @@ for s in \
   "^## Introduction" \
   "^For docs go to <http://sixarm.com/$gem_name/doc>" \
   "^## Install quickstart" \
-  "^    gem install $gem_name", \"=$gem_version\" \
-  "^    gem \"$gem_name\", \"=$gem_version\"" \
+  "^    gem install $gem_name" \
+  "^    gem \"$gem_name\", \"~>$gem_version\"" \
   "^    require \"$gem_name\"" \
   "^## Install with security (optional)" \
   "^    gem install $gem_name --test --trust-policy HighSecurity" \
