@@ -21,7 +21,7 @@ dst_host=www.sixarm.com
 dst_path=/var/www/sixarm.com/html/
 dst_path_gem_name="$dst_path/$gem_name"
 dst_port=22
-git_deploy_link=git://github.com/SixArm/$gem_name.git
+git_read_only_uri=git://github.com/SixArm/$gem_name.git
 
 # Config: $ssh runs a command on the remote host
 ssh="ssh -p $dst_port $dst_user@$dst_host"
@@ -29,5 +29,5 @@ ssh="ssh -p $dst_port $dst_user@$dst_host"
 # Remote: make the remote directory, if needed.
 # Remote: clone the github project, if needed
 # Remote: git pull
-$ssh "mkdir -p $dst_path; [ -e $dst_path_gem_name ] || git clone $git_deploy_link $dst_path_gem_name; cd $dst_path_gem_name && git pull"
+$ssh "mkdir -p $dst_path; [ -e $dst_path_gem_name ] || git clone $git_read_only_uri $dst_path_gem_name; cd $dst_path_gem_name && git pull"
 
