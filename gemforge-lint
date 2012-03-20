@@ -98,16 +98,16 @@ for s in \
   "^* Email: Joel Parker Henderson, <joel@sixarm.com>" \
   "^## Introduction" \
   "^For docs go to <http://sixarm.com/$gem_name/doc>" \
-  "^## Quickstart" \
+  "^## Install quickstart" \
   "^    gem install $gem_name", \"=$gem_version\" \
   "^    gem \"$gem_name\", \"=$gem_version\"" \
   "^    require \"$gem_name\"" \
-  "^## High Security (Optional)" \
+  "^## Install with security (optional)" \
   "^    gem install $gem_name --test --trust-policy HighSecurity" \
   "^## License" \
   "^## Changes" 
 do
-  grepq $file $s
+  grepq "$file" "$s"
 done
 
 #grep -q '^Author::\( Joel Parker Henderson, joel@joelparkerhenderson.com\| Found on the internet by Joel Parker Henderson, joel@joelparkerhenderson.com\)' $file || err "$file author is wrong"
