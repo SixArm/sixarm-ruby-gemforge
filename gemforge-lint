@@ -49,11 +49,15 @@ done
 # Repair versions
 grep -q "^$gem_version$" VERSION || echo "$gem_version" > VERSION
 
+# Fill in 
+perl -p -i -e "s/^    gem install sixarm_ruby_ --test/    gem install $gem_name --test/" README.md
+
+
 ###
 
 for path in "CHANGELOG.txt" "INSTALL.txt" "LICENSE.txt" "$gem_name.sha512.txt"
 do
-  [ -e "$file" ] && err "$file should not exist"  
+  [ -e "$path" ] && err "$path should not exist"  
 done
 
 ls -1 *.gem | wc -l | grep "^1$" > /dev/null || err "More than one gem"
