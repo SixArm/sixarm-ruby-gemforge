@@ -43,6 +43,7 @@ done
 
 # Repair via building
 [ -e "coverage" ] || gemforge-test
+[ -e "doc" ] || gemforge-create-doc
 [ -e "$gem_name_version.gem" ] || gemforge-build-gemspec
 [ -e "$gem_name_version-sha512.txt" ] || gemforge-sha512
 
@@ -50,7 +51,7 @@ done
 grep -q "^$gem_version$" VERSION || echo "$gem_version" > VERSION
 
 # Fill in 
-perl -p -i -e "s/^    gem install sixarm_ruby_ --test/    gem install $gem_name --test/" README.md
+gemforge-fill-in
 
 
 ###

@@ -1,7 +1,8 @@
 # SixArm.com » Ruby » <br> Gem tools for building our SixArm.com gems
 
-* Docs: <http://sixarm.com/sixarm_ruby_gemforge>
-* Repo: <http://github.com/sixarm/sixarm_ruby_gemforge>
+* Doc: <http://sixarm.com/sixarm_ruby_gemforge>
+* Gem: <http://rubygems.org/gems/sixarm_ruby_>
+* Git: <http://github.com/sixarm/sixarm_ruby_gemforge>
 * Email: Joel Parker Henderson, <joel@sixarm.com>
 
 
