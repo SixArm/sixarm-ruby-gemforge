@@ -1,6 +1,6 @@
 #!/bin/bash
 gem_name=`gemspec-cat | gemspec-to-gem-name`
-git_read_only_uri=git://github.com/SixArm/$gem_name.git
-rubydoc-add-project $git_read_only_uri
+rubydoc-add-project "git://github.com/SixArm/$gem_name.git"
+
 
 

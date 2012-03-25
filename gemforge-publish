@@ -54,5 +54,6 @@ gemforge-lint || exit "gemforge-lint failed for gem $gem_name_version"
 echo 'PUBLISH TO LOCAL HOST...'  && gemforge-publish-to-local-host  && echo '...DONE'
 echo 'PUBLISH TO REMOTE HOST...' && gemforge-publish-to-remote-host && echo '...DONE'
 echo 'PUBLISH TO RUBYDOC...' && gemforge-publish-to-rubydoc && echo '...DONE'
+echo 'PUBLISH TO RUBYGEMS...' && gemforge-publish-to-rubygems && echo '...DONE'
 
 
