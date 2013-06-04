@@ -1,6 +1,9 @@
 #!/bin/bash
 gem_name=`gemspec-cat | gemspec-to-gem-name`
-rubydoc-add-project "git://github.com/SixArm/$gem_name.git"
+data="url=git://github.com/SixArm/$gem_name.git&commit=&scheme=git&submit=Go"
+echo $data
+curl --show-error --data "$data" http://rubydoc.info/checkout
+
 
 
 
