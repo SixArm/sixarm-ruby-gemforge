@@ -64,7 +64,7 @@ done
 ls -1 *.gem | wc -l | grep "^1$" > /dev/null || err "More than one gem"
 ls -1 *sha512.txt | wc -l | grep "^1$" > /dev/null || err "More than one sha512"
 
-for path in ".document" ".gemtest" ".git" ".rspec" "Rakefile" "README.md" "VERSION" "coverage" "coverage/assets" "coverage/index.html" "doc" "lib" "lib/${gem_name}.rb" test "test/${gem_name}_test.rb" "$gem_name.gemspec" "$gem_name_version.gem" "$gem_name_version-sha512.txt"
+for path in ".document" ".gemtest" ".git" ".rspec" "CONTRIBUTING.md" "Rakefile" "README.md" "VERSION" "coverage" "coverage/assets" "coverage/index.html" "doc" "lib" "lib/${gem_name}.rb" test "test/${gem_name}_test.rb" "$gem_name.gemspec" "$gem_name_version.gem" "$gem_name_version-sha512.txt"
 do
   [ -e "$path" ] || err "-e $path"
 done
@@ -74,16 +74,18 @@ file_line_should_eq "$file" 1 "Gem::Specification.new do |s|"
 for s in \
   "^  s.name              = \"sixarm_ruby_.*\"" \
   "^  s.summary           = \"SixArm.com » Ruby » .*\"" \
+  "^  s.description       = \".*\"" \
   "^  s.version           = \".*\"" \
   "^  s.author            = \"SixArm\"" \
   "^  s.email             = \"sixarm@sixarm.com\"" \
   "^  s.homepage          = \"http://sixarm.com/\"" \
+  "^  s.licenses          = \[\"BSD\", \"GPL\", \"MIT\", \"PAL\", \"Various\"\] \ 
   "^  s.signing_key       = '/home/sixarm/keys/certs/sixarm-rsa1024-x509-private.pem'" \
   "^  s.cert_chain        = \['/home/sixarm/keys/certs/sixarm-rsa1024-x509-public.pem'\]" \
   "^  s.platform          = Gem::Platform::RUBY" \
   "^  s.require_path      = 'lib'" \
   "^  s.has_rdoc          = true" \
-  "^  top_files           = \[.*\".gemtest\", .*\"Rakefile\", .*\"README.md\",.*\"VERSION\".*\]" \
+  "^  top_files           = \[.*\".gemtest\", .*\"CONTRIBUTING.md\", .*\"Rakefile\", .*\"README.md\",.*\"VERSION\".*\]" \
   "^  lib_files           = \[\"lib/#{s.name}.rb\"\]" \
   "^  test_files          = \[\"test/#{s.name}_test.rb\"\]" \
   "^  s.files             = top_files + lib_files + test_files" \
@@ -117,7 +119,7 @@ do
 done
 
 #grep -q '^Author::\( Joel Parker Henderson, joel@joelparkerhenderson.com\| Found on the internet by Joel Parker Henderson, joel@joelparkerhenderson.com\)' $file || err "$file author is wrong"
-#  "^\(Copyright (c) .*2012 Joel Parker Henderson\| Copyright the original author; please email me if you know who wrote this\)" \
+#  "^\(Copyright (c) .*2013 Joel Parker Henderson\| Copyright the original author; please email me if you know who wrote this\)" \
 
 
 file="lib/${gem_name}.rb"
