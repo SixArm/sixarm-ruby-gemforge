@@ -15,10 +15,22 @@ function die ( ) {
    exit 1
 }
 
+# Discover the sha command.
+#
+#   * sha512sum: typical on Linux
+#   * shasum: typical on OSX
+#
+sha=$(command -v sha512sum >/dev/null 2>&1 && echo "sha512sum" ||
+      command -v shasum    >/dev/null 2>&1 && echo "shasum -a 512" ||
+      echo "")
+
+if [ "$sha" = "" ]; then
+    die "The sha command is missing e.g. 'sha512sum' or 'shasum -a 512'"
+fi
+
 gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
 input_file="$gem_name_version.gem"
 output_file="$gem_name_version-sha512.txt"
 
 [ -e "$input_file" ] || die "Input file is missing: $input_file"
-sha512sum "$input_file" > "$output_file"
-
+$sha "$input_file" > "$output_file"
