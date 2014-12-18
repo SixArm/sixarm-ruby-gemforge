@@ -70,7 +70,9 @@ do
 done
 
 file="$gem_name.gemspec"
-file_line_should_eq "$file" 1 "Gem::Specification.new do |s|"
+file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
+file_line_should_eq "$file" 2 ""
+file_line_should_eq "$file" 3 "Gem::Specification.new do |s|"
 for s in \
   "^  s.name           = \"sixarm_ruby_.*\"" \
   "^  s.summary        = \"SixArm.com » Ruby » .*\"" \
