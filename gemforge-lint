@@ -82,8 +82,8 @@ for s in \
   "^  s.email          = \"sixarm@sixarm.com\"" \
   "^  s.homepage       = \"http://sixarm.com/\"" \
   "^  s.licenses       = \[.*\]" \
-  "^  s.signing_key    =  '.*/sixarm-rsa-4096-x509-20150314-gem-private-key.pem'" \
-  "^  s.cert_chain     = \['.*/sixarm-rsa-4048-x509-20150314-gem-public.pem'\]" \
+  "^  s.signing_key    =  '.*/sixarm-rsa-4096-x509-20150314-gem-private.pem'" \
+  "^  s.cert_chain     = \['.*/sixarm-rsa-4096-x509-20150314-gem-public.pem'\]" \
   "^  s.platform       = Gem::Platform::RUBY" \
   "^  s.require_path   = 'lib'" \
   "^  s.has_rdoc       = true" \
