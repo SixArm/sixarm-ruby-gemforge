@@ -15,8 +15,3 @@ You can customize these however you like for your own systems.
 For docs go to <http://sixarm.com/sixarm_ruby_gemforge>
 
 Want to help? We're happy to get pull requests.
-
-
-## Changes
-
-* 2012-03-14 2.1.4 Update docs, tests
