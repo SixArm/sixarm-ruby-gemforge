@@ -64,7 +64,7 @@ done
 ls -1 *.gem | wc -l | grep "^ *1$" > /dev/null || err "More than one gem"
 ls -1 *sha512.txt | wc -l | grep "^ *1$" > /dev/null || err "More than one sha512"
 
-for path in ".document" ".gemtest" ".git" ".rspec" "CONTRIBUTING.md" "Rakefile" "README.md" "VERSION" "coverage" "coverage/assets" "coverage/index.html" "doc" "lib" "lib/${gem_name}.rb" test "test/${gem_name}_test.rb" "$gem_name.gemspec" "$gem_name_version.gem" "$gem_name_version-sha512.txt"
+for path in ".codeclimate.yml" ".document" ".gemtest" ".git" ".rspec" "CONTRIBUTING.md" "Rakefile" "README.md" "VERSION" "coverage" "coverage/assets" "coverage/index.html" "doc" "lib" "lib/${gem_name}.rb" "test" "$gem_name.gemspec" "$gem_name_version.gem" "$gem_name_version-sha512.txt"
 do
   [ -e "$path" ] || err "-e $path"
 done
@@ -82,16 +82,20 @@ for s in \
   "^  s.email          = \"sixarm@sixarm.com\"" \
   "^  s.homepage       = \"http://sixarm.com/\"" \
   "^  s.licenses       = \[.*\]" \
-  "^  s.signing_key    =  '.*/sixarm-rsa-4096-x509-20150314-private.pem'" \
-  "^  s.cert_chain     = \['.*/sixarm-rsa-4096-x509-20150314-public.pem'\]" \
+  "^  s.signing_key    =  \".*/sixarm-rsa-4096-x509-20150314-private.pem\"" \
+  "^  s.cert_chain     = \[\".*/sixarm-rsa-4096-x509-20150314-public.pem\"\]" \
   "^  s.platform       = Gem::Platform::RUBY" \
-  "^  s.require_path   = 'lib'" \
+  "^  s.require_path   = \"lib\"" \
   "^  s.has_rdoc       = true" \
-  "^  top_files        = \[.*\".gemtest\", .*\"CONTRIBUTING.md\", .*\"Rakefile\", .*\"README.md\",.*\"VERSION\".*\]" \
-  "^  lib_files        = \[\"lib/#{s.name}.rb\"" \
-  "^  test_files       = \[\"test/#{s.name}_test.rb\"" \
-  "^  s.files          = top_files + lib_files + test_files" \
-  "^  s.test_files     = test_files"
+  "^  s.files = %w\"" \
+  " .gemtest" \
+  " CHANGES.md" \
+  " CONTRIBUTING.md" \
+  " LICENSE.md" \
+  " Rakefile" \
+  " README.md" \
+  " VERSION" \
+  "^  s.test_files = %w\""
 do
   grepq "$file" "$s"
 done
@@ -105,7 +109,7 @@ for s in \
   "^* Doc: <http://sixarm.com/$gem_name/doc>" \
   "^* Gem: <http://rubygems.org/gems/$gem_name>" \
   "^* Repo: <http://github.com/sixarm/$gem_name>" \
-  "^* Email: Joel Parker Henderson, <joel@sixarm.com>" \
+  "^* Email: Joel Parker Henderson <joel@sixarm.com>" \
   "^## Introduction" \
   "^For docs go to <http://sixarm.com/$gem_name/doc>" \
   "^## Install quickstart" \
@@ -113,9 +117,7 @@ for s in \
   "^    gem \"$gem_name\", \">=$gem_version\", \"<.*\"" \
   "^    require \"$gem_name\"" \
   "^## Install with security (optional)" \
-  "^    gem install $gem_name --trust-policy HighSecurity" \
-  "^## License" \
-  "^## Changes"
+  "^    gem install $gem_name --trust-policy HighSecurity"
 do
   grepq "$file" "$s"
 done
@@ -124,18 +126,18 @@ done
 #  "^\(Copyright (c) .*2013 Joel Parker Henderson\| Copyright the original author; please email me if you know who wrote this\)" \
 
 
-file="lib/${gem_name}.rb"
-file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
-file_line_should_eq "$file" 2 "=begin rdoc"
-file_line_should_eq "$file" 3 "Please see README"
-file_line_should_eq "$file" 4 "=end"
-file_line_should_eq "$file" 5 ""
+for file in `find lib -type f -name "*.rb"`
+do
+    file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
+done
 
-file="test/${gem_name}_test.rb"
-file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
-file_line_should_eq "$file" 2 "require 'minitest/autorun'"
-file_line_should_eq "$file" 3 "Minitest::Test ||= MiniTest::Unit::TestCase"
-file_line_should_eq "$file" 4 "require 'simplecov'"
-file_line_should_eq "$file" 5 "SimpleCov.start"
+for file in `find test -type f -name "*_test.rb"`
+do
+    file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
+    file_line_should_eq "$file" 2 "require \"minitest/autorun\""
+    file_line_should_eq "$file" 3 "Minitest::Test ||= MiniTest::Unit::TestCase"
+    file_line_should_eq "$file" 4 "require \"simplecov\""
+    file_line_should_eq "$file" 5 "SimpleCov.start"
+done
 
 exit 0
