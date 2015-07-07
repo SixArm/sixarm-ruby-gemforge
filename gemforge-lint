@@ -122,8 +122,14 @@ do
   grepq "$file" "$s"
 done
 
+file="CHANGES.md"
+grep -q "^# Changes$" $file || err "$file headline is wrong"
+
+file="LICENSE.md"
+grep -q "^# License$" $file || err "$file headline is wrong"
+
 #grep -q '^Author::\( Joel Parker Henderson, joel@joelparkerhenderson.com\| Found on the internet by Joel Parker Henderson, joel@joelparkerhenderson.com\)' $file || err "$file author is wrong"
-#  "^\(Copyright (c) .*2013 Joel Parker Henderson\| Copyright the original author; please email me if you know who wrote this\)" \
+#  "^\(Copyright (c) .*2015 Joel Parker Henderson\| Copyright the original author; please email me if you know who wrote this\)" \
 
 
 for file in `find lib -type f -name "*.rb"`
