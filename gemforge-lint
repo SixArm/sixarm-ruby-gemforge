@@ -154,7 +154,6 @@ for file in `find test -type f -name "*_test.rb"`
 do
     file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
     file_line_should_eq "$file" 2 "require \"minitest/autorun\""
-    file_line_should_eq "$file" 3 "Minitest::Test ||= MiniTest::Unit::TestCase"
     file_line_should_eq "$file" 4 "require \"simplecov\""
     file_line_should_eq "$file" 5 "SimpleCov.start"
 done
