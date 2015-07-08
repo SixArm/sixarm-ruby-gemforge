@@ -129,8 +129,7 @@ done
 file="CHANGES.md"
 grep -q "^# Changes$" $file || err "$file headline is wrong"
 grep -q '^\* 2015-07-07 .* Update gemspec to use file manifest' $file || err "$file missing update. Please add update."
-grep -q '\.$' $file || err "$file has line that ends in period. Please delete period."
-
+cat $file | grep -v ' etc\.$' | grep -q '\.$' && err "$file has line that ends in period. Please delete period."
 
 file="LICENSE.md"
 grep -q '^# License$' $file || err "$file headline is wrong"
