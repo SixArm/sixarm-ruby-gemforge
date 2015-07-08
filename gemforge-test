@@ -10,4 +10,4 @@ set -o errexit
 #   => runs ruby tests and reports any errors
 ##
 
-ruby -rubygems -Ilib -Itest test/*.rb
+ruby -rubygems -Ilib -Itest test/**/*.rb

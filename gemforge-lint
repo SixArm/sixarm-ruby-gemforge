@@ -9,11 +9,14 @@ set -o errexit
 gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
 gem_name=`gemspec-cat | gemspec-to-gem-name`
 gem_version=`gemspec-cat | gemspec-to-gem-version`
+github_team="SixArm"
+github_repo="$gem_name"
+github_team_repo="$github_team/$github_repo"
+github_link="https://github.com/$github_team_repo"
 
 function err ( ) {
    echo "gemforge-lint $gem_name_version $@" >&2
 }
-
 
 function file_line_should_eq {
   file=$1
@@ -53,7 +56,6 @@ grep -q "^$gem_version$" VERSION || echo "$gem_version" > VERSION
 # Fill in
 gemforge-fill-in
 
-
 ###
 
 for path in "CHANGELOG.txt" "INSTALL.txt" "LICENSE.txt" "$gem_name.sha512.txt"
@@ -87,15 +89,15 @@ for s in \
   "^  s.platform       = Gem::Platform::RUBY" \
   "^  s.require_path   = \"lib\"" \
   "^  s.has_rdoc       = true" \
-  "^  s.files = %w\"" \
-  " .gemtest" \
-  " CHANGES.md" \
-  " CONTRIBUTING.md" \
-  " LICENSE.md" \
-  " Rakefile" \
-  " README.md" \
-  " VERSION" \
-  "^  s.test_files = %w\""
+  "^  s.files = \[" \
+  "^    \".gemtest\"," \
+  "^    \"CHANGES.md\"," \
+  "^    \"CONTRIBUTING.md\"," \
+  "^    \"LICENSE.md\"," \
+  "^    \"Rakefile\"," \
+  "^    \"README.md\"," \
+  "^    \"VERSION\"," \
+  "^  s.test_files = \["
 do
   grepq "$file" "$s"
 done
@@ -106,10 +108,12 @@ grep -q "^$gem_version$" $file || err "$file version is wrong"
 file="README.md"
 for s in \
   "^# SixArm.com » Ruby » <br> " \
+  "^\[!\[Code Climate\].*https://codeclimate.com/github/$github_team_repo.png.*https://codeclimate.com/github/$github_team_repo" \
+  "^\[!\[Build Status\].*https://travis-ci.org/$github_team_repo.png.*https://travis-ci.org/$github_team_repo" \
   "^* Doc: <http://sixarm.com/$gem_name/doc>" \
   "^* Gem: <http://rubygems.org/gems/$gem_name>" \
   "^* Repo: <http://github.com/sixarm/$gem_name>" \
-  "^* Email: Joel Parker Henderson <joel@sixarm.com>" \
+  "^* Email: Joel Parker Henderson, <joel@sixarm.com>" \
   "^## Introduction" \
   "^For docs go to <http://sixarm.com/$gem_name/doc>" \
   "^## Install quickstart" \
@@ -124,13 +128,23 @@ done
 
 file="CHANGES.md"
 grep -q "^# Changes$" $file || err "$file headline is wrong"
+grep -q '^\* 2015-07-07 .* Update gemspec to use file manifest' $file || err "$file missing update. Please add update."
+grep -q '\.$' $file || err "$file has line that ends in period. Please delete period."
+
 
 file="LICENSE.md"
-grep -q "^# License$" $file || err "$file headline is wrong"
+grep -q '^# License$' $file || err "$file headline is wrong"
 
 #grep -q '^Author::\( Joel Parker Henderson, joel@joelparkerhenderson.com\| Found on the internet by Joel Parker Henderson, joel@joelparkerhenderson.com\)' $file || err "$file author is wrong"
-#  "^\(Copyright (c) .*2015 Joel Parker Henderson\| Copyright the original author; please email me if you know who wrote this\)" \
+#  "^\(Copyright (c) Joel Parker Henderson\| Copyright the original author; please email me if you know who wrote this\)" \
 
+exit 0 #TODO REMOVE THIS LINE WHEN ALL THE GEMS VALIDATE THUS FAR
+
+###
+#
+# Lint each of the deeper files
+#
+###
 
 for file in `find lib -type f -name "*.rb"`
 do
