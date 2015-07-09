@@ -220,8 +220,8 @@ for file in `find test -type f -name "*_test.rb"`
 do
     grep -q "^Minitest::Test .* MiniTest::Unit::TestCase" "$file" &&
         err "$file contains Minitest::Test...Test::Unit::TestCase. ␟ Please delete that line, such as running: ␟ sed -i '/^Minitest::Test .* MiniTest::Unit::TestCase/d' test/{*.rb,**/*.rb}"
-    grep -q "\< Test::Unit::TestCase" "$file" &&
-        err "$file contains Test::Unit::TestCase. ␟ Please update to: Minitest::Test, such as running: ␟ sed -i 's/< Test::Unit::TestCase/< Minitest::Test/' test/{*.rb,**/*.rb}"
+    grep -q "Test::Unit::TestCase" "$file" &&
+        err "$file contains Test::Unit::TestCase. ␟ Please update to: Minitest::Test, such as running: ␟ sed -i 's/Test::Unit::TestCase/Minitest::Test/' test/{*.rb,**/*.rb}"
     file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
     file_line_should_eq "$file" 2 "require \"minitest/autorun\""
     file_line_should_eq "$file" 3 "require \"simplecov\""
