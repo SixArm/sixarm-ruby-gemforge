@@ -9,10 +9,19 @@ set -o errexit
 gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
 gem_name=`gemspec-cat | gemspec-to-gem-name`
 gem_version=`gemspec-cat | gemspec-to-gem-version`
-github_team="SixArm"
-github_repo="$gem_name"
-github_team_repo="$github_team/$github_repo"
-github_link="https://github.com/$github_team_repo"
+
+team="SixArm"
+repo="$gem_name"
+
+github_uri="https://github.com/$team/$repo"
+
+travis_uri="https://travis-ci.org/$team/$repo"
+travis_png="https://travis-ci.org/$team/$repo.png"
+travis_badge="[![Build Status]($travis_png)]($travis_uri)"
+
+codeclimate_uri="https://codeclimate.com/github/$team/$repo"
+codeclimate_png="https://codeclimate.com/github/$team/$repo.png"
+codeclimate_badge="[![Code Climate]($codeclimate_png)]($codeclimate_uri)"
 
 function err ( ) {
    echo "gemforge-lint $gem_name_version $@" >&2
@@ -25,7 +34,7 @@ function file_line_should_eq {
   actual_line=`sed -n "${line_num}p" "$file"`
   if [ "$expect_line" != "$actual_line" ]
   then
-    err "file $file line $line_num\n expect: $expect_line\n actual:$actual_line"
+    err "file $file line $line_num. ␟ Expect: ␟ $expect_line ␟ Actual:$actual_line"
   fi
 }
 
@@ -39,10 +48,13 @@ function grepq {
 [ -e "VERSION" ] || echo "$gem_version" > VERSION
 
 # Repair via cookie cutter
-for path in ".rspec" "Rakefile"
+for path in ".gitignore" ".rspec" ".travis.yml" "CONTRIBUTING.md" "LICENSE.md" "Gemfile" "Gemfile.lock" "Rakefile"
 do
-  [ -e "$path" ] || cp "/home/sixarm/git/sixarm_ruby_week/$path" .
+    [ -e $path ] || cp ~/git/sixarm/sixarm_ruby_week/$path .
 done
+
+# Repair via in-place updates
+grep -q "task :default => [:test]" Rakefile || echo "task :default => [:test]" >> Rakefile
 
 # Repair via building
 [ -e "coverage" ] || gemforge-test
@@ -66,15 +78,25 @@ done
 ls -1 *.gem | wc -l | grep "^ *1$" > /dev/null || err "More than one gem"
 ls -1 *sha512.txt | wc -l | grep "^ *1$" > /dev/null || err "More than one sha512"
 
-for path in ".codeclimate.yml" ".document" ".gemtest" ".git" ".rspec" "CONTRIBUTING.md" "Rakefile" "README.md" "VERSION" "coverage" "coverage/assets" "coverage/index.html" "doc" "lib" "lib/${gem_name}.rb" "test" "$gem_name.gemspec" "$gem_name_version.gem" "$gem_name_version-sha512.txt"
+for path in ".codeclimate.yml" ".document" ".gemtest" ".git" ".rspec" "CONTRIBUTING.md" "LICENSE.md" "Gemfile" "Gemfile.lock" "Rakefile" "README.md" "VERSION" "coverage" "coverage/assets" "coverage/index.html" "doc" "lib" "lib/${gem_name}.rb" "test" "$gem_name.gemspec" "$gem_name_version.gem" "$gem_name_version-sha512.txt"
 do
   [ -e "$path" ] || err "-e $path"
 done
 
+###
+#
+# Specific files
+#
+###
+
+### *.gemspec file
+
 file="$gem_name.gemspec"
+
 file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
 file_line_should_eq "$file" 2 ""
 file_line_should_eq "$file" 3 "Gem::Specification.new do |s|"
+
 for s in \
   "^  s.name           = \"sixarm_ruby_.*\"" \
   "^  s.summary        = \"SixArm.com » Ruby » .*\"" \
@@ -102,14 +124,54 @@ do
   grepq "$file" "$s"
 done
 
-file="VERSION"
-grep -q "^$gem_version$" $file || err "$file version is wrong"
+### .gitignore file
+
+file=".gitignore"
+
+for s in \
+  "coverage", \
+  "doc"
+do
+  grep -q "^$s$" $file &&
+    err "$file incorrectly ignores \"$s\". ␟ Please delete \"$s\"."
+done
+
+### .travis.yml
+
+file=".travis.yml"
+
+grepq "$file" "sudo: false"
+grepq "$file" "cache: bundler"
+
+### CHANGES.md file
+
+file="CHANGES.md"
+
+grep -q "^# Changes$" $file ||
+    err "$file headline is wrong. ␟ Please fix to: ␟ # Changes"
+
+grep -q '^\* 2015-07-07 .* Update gemspec to use file manifest' $file ||
+    err "$file missing update. ␟ Please add: ␟ * 2015-07-07 .* Update gemspec to use file manifest"
+
+cat $file | grep -v ' etc\.$' | grep -q '\.$' &&
+    err "$file has line that ends in period. ␟ Please delete period."
+
+### LICENSE.md file
+
+file="LICENSE.md"
+
+grep -q '^# License$' $file ||
+    err "$file headline is wrong. ␟ Please fix to: ␟ # License ␞"
+
+#grep -q '^Author::\( Joel Parker Henderson, joel@joelparkerhenderson.com\| Found on the internet by Joel Parker Henderson, joel@joelparkerhenderson.com\)' $file || err "$file author is wrong"
+#  "^\(Copyright (c) Joel Parker Henderson\| Copyright the original author; please email me if you know who wrote this\)" \
+
+### README.md file
 
 file="README.md"
+
 for s in \
   "^# SixArm.com » Ruby » <br> " \
-  "^\[!\[Code Climate\].*https://codeclimate.com/github/$github_team_repo.png.*https://codeclimate.com/github/$github_team_repo" \
-  "^\[!\[Build Status\].*https://travis-ci.org/$github_team_repo.png.*https://travis-ci.org/$github_team_repo" \
   "^* Doc: <http://sixarm.com/$gem_name/doc>" \
   "^* Gem: <http://rubygems.org/gems/$gem_name>" \
   "^* Repo: <http://github.com/sixarm/$gem_name>" \
@@ -126,18 +188,22 @@ do
   grepq "$file" "$s"
 done
 
-file="CHANGES.md"
-grep -q "^# Changes$" $file || err "$file headline is wrong"
-grep -q '^\* 2015-07-07 .* Update gemspec to use file manifest' $file || err "$file missing update. Please add update."
-cat $file | grep -v ' etc\.$' | grep -q '\.$' && err "$file has line that ends in period. Please delete period."
+file_line_should_eq "$file" 3 "$codeclimate_badge"
+file_line_should_eq "$file" 4 "$travis_badge"
 
-file="LICENSE.md"
-grep -q '^# License$' $file || err "$file headline is wrong"
+### Rakefile file
 
-#grep -q '^Author::\( Joel Parker Henderson, joel@joelparkerhenderson.com\| Found on the internet by Joel Parker Henderson, joel@joelparkerhenderson.com\)' $file || err "$file author is wrong"
-#  "^\(Copyright (c) Joel Parker Henderson\| Copyright the original author; please email me if you know who wrote this\)" \
+file="Rakefile"
 
-exit 0 #TODO REMOVE THIS LINE WHEN ALL THE GEMS VALIDATE THUS FAR
+grep -q "task :default => \[:test\]" $file ||
+    err "$file needs default test. ␟ Please add: ␟ task :default => [:test]"
+
+### VERSION file
+
+file="VERSION"
+
+grep -q "^$gem_version$" $file ||
+    err "$file version is wrong. ␟ Please update to: ␟ $gem_version"
 
 ###
 #
@@ -152,10 +218,14 @@ done
 
 for file in `find test -type f -name "*_test.rb"`
 do
+    grep -q "^Minitest::Test .* MiniTest::Unit::TestCase" "$file" &&
+        err "$file contains Minitest::Test...Test::Unit::TestCase. ␟ Please delete that line, such as running: ␟ sed -i '/^Minitest::Test .* MiniTest::Unit::TestCase/d' test/{*.rb,**/*.rb}"
+    grep -q "\< Test::Unit::TestCase" "$file" &&
+        err "$file contains Test::Unit::TestCase. ␟ Please update to: Minitest::Test, such as running: ␟ sed -i 's/< Test::Unit::TestCase/< Minitest::Test/' test/{*.rb,**/*.rb}"
     file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
     file_line_should_eq "$file" 2 "require \"minitest/autorun\""
-    file_line_should_eq "$file" 4 "require \"simplecov\""
-    file_line_should_eq "$file" 5 "SimpleCov.start"
+    file_line_should_eq "$file" 3 "require \"simplecov\""
+    file_line_should_eq "$file" 4 "SimpleCov.start"
 done
 
 exit 0
