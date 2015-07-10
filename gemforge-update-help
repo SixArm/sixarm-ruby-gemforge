@@ -17,4 +17,4 @@ rake
 git add .yardoc
 git add coverage
 git add doc
-git commit "Update help" .yardoc coverage doc
+git commit -m "Update help" .yardoc coverage doc
