@@ -15,13 +15,21 @@ repo="$gem_name"
 
 github_uri="https://github.com/$team/$repo"
 
+fury_uri="http://badge.fury.io/rb/$gem_name"
+fury_img="https://badge.fury.io/rb/$gem_name.svg"
+fury_badge="[![Gem Version]($fury_img)]($fury_uri)"
+
 travis_uri="https://travis-ci.org/$team/$repo"
-travis_png="https://travis-ci.org/$team/$repo.png"
-travis_badge="[![Build Status]($travis_png)]($travis_uri)"
+travis_img="https://travis-ci.org/$team/$repo.png"
+travis_badge="[![Build Status]($travis_img)]($travis_uri)"
 
 codeclimate_uri="https://codeclimate.com/github/$team/$repo"
-codeclimate_png="https://codeclimate.com/github/$team/$repo.png"
-codeclimate_badge="[![Code Climate]($codeclimate_png)]($codeclimate_uri)"
+codeclimate_img="https://codeclimate.com/github/$team/$repo.png"
+codeclimate_badge="[![Code Climate]($codeclimate_img)]($codeclimate_uri)"
+
+coveralls_uri="https://coveralls.io/github/$team/$repo?branch=master"
+coveralls_img="https://coveralls.io/repos/$team/$repo/badge.svg?branch=master&service=github"
+coveralls_badge="[![Coverage Status]($coveralls_img)]($coveralls_uri)"
 
 function err ( ) {
    echo "gemforge-lint $gem_name_version $@" >&2
@@ -112,16 +120,22 @@ for s in \
   "^  s.require_path   = \"lib\"" \
   "^  s.has_rdoc       = true" \
   "^  s.files = \[" \
+  "^    \"Rakefile\"," \
+  "^  s.test_files = \["
+do
+  grepq "$file" "$s"
+done
+
+for s in \
   "^    \".gemtest\"," \
   "^    \"CHANGES.md\"," \
   "^    \"CONTRIBUTING.md\"," \
   "^    \"LICENSE.md\"," \
-  "^    \"Rakefile\"," \
   "^    \"README.md\"," \
-  "^    \"VERSION\"," \
-  "^  s.test_files = \["
+  "^    \"VERSION\","
 do
-  grepq "$file" "$s"
+  grep -q "$s" "$file" &&
+    err "$file incorrectly contains $s. Please delete that line."
 done
 
 ### .gitignore file
@@ -172,28 +186,45 @@ file="README.md"
 
 for s in \
   "^# SixArm.com » Ruby » <br> " \
+  "^* Git: <https://github.com/sixarm/$gem_name>" \
   "^* Doc: <http://sixarm.com/$gem_name/doc>" \
-  "^* Gem: <http://rubygems.org/gems/$gem_name>" \
-  "^* Repo: <http://github.com/sixarm/$gem_name>" \
-  "^* Email: Joel Parker Henderson, <joel@sixarm.com>" \
+  "^* Gem: <https://rubygems.org/gems/$gem_name>" \
+  "^* Contact: Joel Parker Henderson, <joel@sixarm.com>" \
+  "^* Changes: See CHANGES.md file." \
+  "^* License: See LICENSE.md file." \
+  "^* Helping: See CONTRIBUTING.md file." \
   "^## Introduction" \
   "^For docs go to <http://sixarm.com/$gem_name/doc>" \
-  "^## Install quickstart" \
-  "^    gem install $gem_name" \
-  "^    gem \"$gem_name\", \">=$gem_version\", \"<.*\"" \
-  "^    require \"$gem_name\"" \
-  "^## Install with security (optional)" \
-  "^    gem install $gem_name --trust-policy HighSecurity"
+  "^## Install" \
+  "^To install using a Gemfile, add this:" \
+  "^    gem \"$gem_name\", \">= $gem_version\", \"< .*\"" \
+  "^To install using the command line, run this:"\
+  "^    gem install $gem_name -v \">= $gem_version, < .*\"" \
+  "^To install using the command line with high security, run this:" \
+  "^    wget http://sixarm.com/sixarm.pem" \
+  "^    gem cert --add sixarm.pem && gem sources --add http://sixarm.com" \
+  "^    gem install $gem_name -v \">= $gem_version, < .*\" --trust-policy HighSecurity" \
+  "^To require the gem in your code:" \
+  "^    require \"$gem_name\"" 
 do
   grepq "$file" "$s"
 done
 
-file_line_should_eq "$file" 3 "$codeclimate_badge"
-file_line_should_eq "$file" 4 "$travis_badge"
+file_line_should_eq "$file" 3 "<!--HEADER-OPEN-->"
+file_line_should_eq "$file" 5 "$fury_badge"
+file_line_should_eq "$file" 6 "$travis_badge"
+file_line_should_eq "$file" 7 "$codeclimate_badge"
+file_line_should_eq "$file" 8 "$coveralls_badge"
 
 ### Rakefile file
 
 file="Rakefile"
+
+grep -q "t.libs.push(\"lib\", \"test\")" $file ||
+    err "$file test task needs t.libs. ␟ Please add this to the test task: t.libs.push(\"lib\", \"test\")"
+
+#grep -q "t.pattern = \"test/\*\*/\*.rb\"" $file ||
+#    err "$file test task needs t.pattern. ␟ Please add this to the test task: t.pattern = \"test/**/*.rb\""
 
 grep -q "task :default => \[:test\]" $file ||
     err "$file needs default test. ␟ Please add: ␟ task :default => [:test]"
@@ -204,6 +235,21 @@ file="VERSION"
 
 grep -q "^$gem_version$" $file ||
     err "$file version is wrong. ␟ Please update to: ␟ $gem_version"
+
+### Test top file
+
+file="test/${gem_name}_test.rb"
+
+file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
+file_line_should_eq "$file" 2 "require \"minitest/autorun\""
+file_line_should_eq "$file" 3 "require \"coveralls\""
+file_line_should_eq "$file" 4 "require \"simplecov\""
+file_line_should_eq "$file" 5 "Coveralls.wear!"
+file_line_should_eq "$file" 6 "SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter["
+file_line_should_eq "$file" 7 "  SimpleCov::Formatter::HTMLFormatter,"
+file_line_should_eq "$file" 8 "  Coveralls::SimpleCov::Formatter"
+file_line_should_eq "$file" 9 "]"
+file_line_should_eq "$file" 10 "SimpleCov.start"
 
 ###
 #
@@ -216,9 +262,8 @@ do
     file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
 done
 
-for file in `find test -type f -name "*_test.rb"`
+for file in `find test/${gem_name}_test -type f -name "*_test.rb"`
 do
-
     grep -q "^Minitest::Test .* MiniTest::Unit::TestCase" "$file" &&
         err "$file contains Minitest::Test...Test::Unit::TestCase. ␟ Please delete that line, such as running: ␟ sed -i '/^Minitest::Test .* MiniTest::Unit::TestCase/d' test/{*.rb,**/*.rb}"
 
@@ -229,9 +274,7 @@ do
         err "$file contains assert_not_. ␟ Please update to refute_, such as running: ␟ sed -i 's/assert_not_/refute_/' test/{*.rb,**/*.rb}"
 
     file_line_should_eq "$file" 1 "# -*- coding: utf-8 -*-"
-    file_line_should_eq "$file" 2 "require \"minitest/autorun\""
-    file_line_should_eq "$file" 3 "require \"simplecov\""
-    file_line_should_eq "$file" 4 "SimpleCov.start"
+    file_line_should_eq "$file" 2 "require \"${gem_name}_test\""
 done
 
 exit 0
