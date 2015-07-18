@@ -1,0 +1,66 @@
+#!/bin/bash
+set -o errexit
+
+gem_name=`gemspec-cat | gemspec-to-gem-name`
+gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
+
+gem_version=`gemspec-cat | gemspec-to-gem-version`
+gem_version_lt=$((${gem_version%%.*} + 1))
+
+github_team_repo=`github-team-repo`
+github_repo=${github_team_repo##*/}
+
+file=README.md
+
+###
+#
+# Header section
+#
+###
+
+open="HEADER-OPEN"
+shut="HEADER-SHUT"
+
+badge0="[![Gem Version](https://badge.fury.io/rb/$gem_name.svg)](http://badge.fury.io/rb/$gem_name)\n"
+badge1="[![Build Status](https://travis-ci.org/$github_team_repo.png)](https://travis-ci.org/$github_team_repo)\n"
+badge2="[![Code Climate](https://codeclimate.com/github/$github_team_repo.png)](https://codeclimate.com/github/$github_team_repo)\n"
+badge3="[![Coverage Status](https://coveralls.io/repos/$github_team_repo/badge.svg?branch=master&service=github)](https://coveralls.io/github/$github_team_repo?branch=master)\n"
+
+link0="* Git: <https://github.com/sixarm/$github_repo>\n"
+link1="* Doc: <http://sixarm.com/$gem_name/doc>\n"
+link2="* Gem: <https://rubygems.org/gems/$gem_name>\n"
+link3="* Contact: Joel Parker Henderson, <joel@sixarm.com>\n"
+link4="* Changes: See CHANGES.md file.\n"
+link5="* License: See LICENSE.md file.\n"
+link6="* Helping: See CONTRIBUTING.md file.\n"
+
+text="\n\n$badge0$badge1$badge2$badge3\n$link0$link1$link2$link3$link4$link5$link6\n"
+sed -i "/<!--$open-->/,/<!--$shut-->/c\<!--$open-->$text<!--$shut-->" "$file"
+
+###
+#
+# Install section
+#
+###
+
+open="INSTALL-OPEN"
+shut="INSTALL-SHUT"
+
+top0="## Install\n\n"
+
+gem0="To install using a Gemfile, add this:\n\n"
+gem1="    gem \"$gem_name\", \">= $gem_version\", \"< $gem_version_lt\"\n\n"
+
+cmd0="To install using the command line, run this:\n\n"
+cmd1="    gem install $gem_name -v \">= $gem_version, < $gem_version_lt\"\n\n"
+
+sec0="To install using the command line with high security, run this:\n\n"
+sec1="    wget http://sixarm.com/sixarm.pem\n"
+sec2="    gem cert --add sixarm.pem && gem sources --add http://sixarm.com\n"
+sec3="    gem install $gem_name -v \">= $gem_version, < $gem_version_lt\" --trust-policy HighSecurity\n\n"
+
+req0="To require the gem in your code:\n\n"
+req1="    require \"$gem_name\"\n\n"
+
+text="\n\n$top0$gem0$gem1$cmd0$cmd1$sec0$sec1$sec2$sec3$req0$req1"
+sed -i "/<!--$open-->/,/<!--$shut-->/c\<!--$open-->$text<!--$shut-->" "$file"
