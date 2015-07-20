@@ -49,18 +49,18 @@ shut="INSTALL-SHUT"
 top0="## Install\n\n"
 
 gem0="To install using a Gemfile, add this:\n\n"
-gem1="    gem \"$gem_name\", \">= $gem_version\", \"< $gem_version_lt\"\n\n"
+gem1="    gem '$gem_name', '~> $gem_version'\n\n"
 
 cmd0="To install using the command line, run this:\n\n"
-cmd1="    gem install $gem_name -v \">= $gem_version, < $gem_version_lt\"\n\n"
+cmd1="    gem install $gem_name -v '~> $gem_version'\n\n"
 
-sec0="To install using the command line with high security, run this:\n\n"
+sec0="Or run this command using high security:\n\n"
 sec1="    wget http://sixarm.com/sixarm.pem\n"
 sec2="    gem cert --add sixarm.pem && gem sources --add http://sixarm.com\n"
 sec3="    gem install $gem_name -v \">= $gem_version, < $gem_version_lt\" --trust-policy HighSecurity\n\n"
 
-req0="To require the gem in your code:\n\n"
-req1="    require \"$gem_name\"\n\n"
+req0="To require this gem in your code:\n\n"
+req1="    require '$gem_name'\n\n"
 
-text="\n\n$top0$gem0$gem1$cmd0$cmd1$sec0$sec1$sec2$sec3$req0$req1"
+text="\n\n$top0$gem0$gem1$cmd0$cmd1$req0$req1"
 sed -i "/<!--$open-->/,/<!--$shut-->/c\<!--$open-->$text<!--$shut-->" "$file"
