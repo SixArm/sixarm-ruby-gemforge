@@ -48,19 +48,21 @@ shut="INSTALL-SHUT"
 
 top0="## Install\n\n"
 
-gem0="To install using a Gemfile, add this:\n\n"
-gem1="    gem '$gem_name', '~> $gem_version'\n\n"
+gem0="### Gem\n\n"
+gem1="Run this command in your shell or terminal:\n\n"
+gem2="    gem install $gem_name\n\n"
+gem3="Or add this to your Gemfile:\n\n"
+gem4="    gem '$gem_name'\n\n"
 
-cmd0="To install using the command line, run this:\n\n"
-cmd1="    gem install $gem_name -v '~> $gem_version'\n\n"
+#sec0="### Command Line - More Security\n\n"
+#sec1="Run these command in your shell or terminal:\n\n"
+#sec2="    wget http://sixarm.com/sixarm.pem\n"
+#sec3="    gem cert --add sixarm.pem && gem sources --add http://sixarm.com\n"
+#sec4="    gem install $gem_name -v \">= $gem_version, < $gem_version_lt\" --trust-policy HighSecurity\n\n"
 
-sec0="Or run this command using high security:\n\n"
-sec1="    wget http://sixarm.com/sixarm.pem\n"
-sec2="    gem cert --add sixarm.pem && gem sources --add http://sixarm.com\n"
-sec3="    gem install $gem_name -v \">= $gem_version, < $gem_version_lt\" --trust-policy HighSecurity\n\n"
+req0="### Require\n\n"
+req1="To require the gem in your code:\n\n"
+req2="    require '$gem_name'\n\n"
 
-req0="To require this gem in your code:\n\n"
-req1="    require '$gem_name'\n\n"
-
-text="\n\n$top0$gem0$gem1$cmd0$cmd1$req0$req1"
+text="\n\n$top0$gem0$gem1$gem2$gem3$gem4$req0$req1$req2"
 sed -i "/<!--$open-->/,/<!--$shut-->/c\<!--$open-->$text<!--$shut-->" "$file"
