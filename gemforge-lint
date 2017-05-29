@@ -138,6 +138,10 @@ do
     err "$file incorrectly contains $s. Please delete that line."
 done
 
+# Upgrades
+s/"BSD", "GPL", "MIT", "PAL", "Various"/"Apache-2.0", "Artistic-2.0", "BSD-3-Clause", "GPL-3.0", "MIT", "MPL-2.0"/ "$file"
+
+
 ### .gitignore file
 
 file=".gitignore"
