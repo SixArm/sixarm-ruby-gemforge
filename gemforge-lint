@@ -184,24 +184,6 @@ grep -q '^# License$' $file ||
 #grep -q '^Author::\( Joel Parker Henderson, joel@joelparkerhenderson.com\| Found on the internet by Joel Parker Henderson, joel@joelparkerhenderson.com\)' $file || err "$file author is wrong"
 #  "^\(Copyright (c) Joel Parker Henderson\| Copyright the original author; please email me if you know who wrote this\)" \
 
-# Upgrade
-
-sed -i.bak '
-s/You may choose any of these open source licenses:*/Use any license below; see https:\/\/spdx.org\/licenses\//;
-s/Use any license below.*/Use any license below. Reference https:\/\/spdx.org\/licenses\//;
-s/ Apache .*/ Apache License (Apache-2.0)/;
-s/ Artistic */ Artistic License (Artistic-2.0)/;
-s/ BSD .*/ BSD License (BSD-3-Clause)/;
-s/ Creative *Commons.*/ Creative Commons (CC-BY-NC-SA-4.0)/;
-s/ GNU Affero General Public License.*/ GNU Affero General Public License (AGPL-3.0)/;
-s/ GNU General Public License.*/ GNU General Public License (GPL-3.0)/;
-s/ GNU Lesser General Public License.*/ GNU Lesser General Public License (LGPL-3.0)/;
-s/ Perl .*/ Perl Artistic License (Artistic-2.0)/;
-s/ MIT .*/ MIT License (MIT)/;
-s/ Mozilla Public License .*/ Mozilla Public License (MPL-2.0)/;
-s/ Ruby .*/ Ruby License (Ruby)/;
-' LICENSE.md
-
 ### README.md file
 
 file="README.md"
