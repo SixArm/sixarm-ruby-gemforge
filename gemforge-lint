@@ -77,8 +77,10 @@ grep -q "^$gem_version$" VERSION || echo "$gem_version" > VERSION
 gemforge-fill-in
 
 # Fix arrow
-sed 's/ » / → /g' "$gem_name.gemspec"
+sed -i.bak 's/SixArm.com » Ruby » /SixArm.com → Ruby → /g' "$gem_name.gemspec" README.md
 
+# Fix Mac
+grep -q ".DS_Store" .gitignore || echo ".DS_Store" >> .gitignore
 
 ###
 
@@ -190,7 +192,7 @@ grep -q '^# License$' $file ||
 file="README.md"
 
 for s in \
-  "^# SixArm.com » Ruby » <br> " \
+  "^# SixArm.com → Ruby → <br> " \
   "^* Git: <https://github.com/sixarm/$gem_name>" \
   "^* Doc: <http://sixarm.com/$gem_name/doc>" \
   "^* Gem: <https://rubygems.org/gems/$gem_name>" \
