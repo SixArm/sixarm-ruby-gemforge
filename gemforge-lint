@@ -10,7 +10,7 @@ gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
 gem_name=`gemspec-cat | gemspec-to-gem-name`
 gem_version=`gemspec-cat | gemspec-to-gem-version`
 gem_version_major="${x%%.*}"
-gem_version_above="$((${x%%.*} + 1))"
+gem_version_above=$((${x%%.*} + 1))
 
 team="SixArm"
 repo="$gem_name"
