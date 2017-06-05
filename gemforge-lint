@@ -203,11 +203,11 @@ for s in \
   "^## Introduction" \
   "^## Install" \
   "^To install using a Gemfile, add this:" \
-  "^    gem '$gem_name', '~> $gem_version'" \
+  "^    gem \"$gem_name\", \"~> $gem_version\"" \
   "^To install using the command line, run this:" \
-  "^    gem install $gem_name -v '~> $gem_version'" \
+  "^    gem install $gem_name -v \"~> $gem_version\"" \
   "^To require this gem in your code:" \
-  "^    require '$gem_name'" 
+  "^    require \"$gem_name\"" 
 do
   grepq "$file" "$s"
 done
