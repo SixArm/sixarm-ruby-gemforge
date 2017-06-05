@@ -76,6 +76,10 @@ grep -q "^$gem_version$" VERSION || echo "$gem_version" > VERSION
 # Fill in
 gemforge-fill-in
 
+# Fix arrow
+sed 's/ » / → /g' "$gem_name.gemspec"
+
+
 ###
 
 for path in "CHANGELOG.txt" "INSTALL.txt" "LICENSE.txt" "$gem_name.sha512.txt"
@@ -107,7 +111,7 @@ file_line_should_eq "$file" 3 "Gem::Specification.new do |s|"
 
 for s in \
   "^  s.name           = \"sixarm_ruby_.*\"" \
-  "^  s.summary        = \"SixArm.com » Ruby » .*\"" \
+  "^  s.summary        = \"SixArm.com → Ruby → .*\"" \
   "^  s.description    = \".*\"" \
   "^  s.version        = \".*\"" \
   "^  s.author         = \"SixArm\"" \
@@ -137,9 +141,6 @@ do
   grep -q "$s" "$file" &&
     err "$file incorrectly contains $s. Please delete that line."
 done
-
-# Upgrades
-s/"BSD", "GPL", "MIT", "PAL", "Various"/"Apache-2.0", "Artistic-2.0", "BSD-3-Clause", "GPL-3.0", "MIT", "MPL-2.0"/ "$file"
 
 
 ### .gitignore file
