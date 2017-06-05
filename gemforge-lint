@@ -9,6 +9,8 @@ set -o errexit
 gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
 gem_name=`gemspec-cat | gemspec-to-gem-name`
 gem_version=`gemspec-cat | gemspec-to-gem-version`
+gem_version_major="${x%%.*}"
+gem_version_above="$((${x%%.*} + 1))"
 
 team="SixArm"
 repo="$gem_name"
@@ -203,9 +205,9 @@ for s in \
   "^## Introduction" \
   "^## Install" \
   "^To install using a Gemfile, add this:" \
-  "^    gem \"$gem_name\", \"~> $gem_version\"" \
+  "^    gem \"$gem_name\", \">= $gem_version, < $gem_version_above\"" \
   "^To install using the command line, run this:" \
-  "^    gem install $gem_name -v \"~> $gem_version\"" \
+  "^    gem install $gem_name" \
   "^To require this gem in your code:" \
   "^    require \"$gem_name\"" 
 do
