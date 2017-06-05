@@ -33,6 +33,12 @@ coveralls_uri="https://coveralls.io/github/$team/$repo?branch=master"
 coveralls_img="https://coveralls.io/repos/$team/$repo/badge.svg?branch=master&service=github"
 coveralls_badge="[![Coverage Status]($coveralls_img)]($coveralls_uri)"
 
+##
+#
+# Utilities
+#
+##
+
 function err ( ) {
    echo "gemforge-lint $gem_name_version $@" >&2
 }
@@ -52,37 +58,64 @@ function grepq {
   grep -q "$2" "$1" || err "$1 grep $2"
 }
 
-### Repair
+##
+#
+# Fix items, including repairing, refreshing, updating, etc.
+#
+##
 
-# Repair via placeholders
-[ -e "VERSION" ] || echo "$gem_version" > VERSION
+function fix_version(){
+  grep -q "^$gem_version$" VERSION || echo "$gem_version" > VERSION
+}
 
-# Repair via cookie cutter
-for path in ".gitignore" ".rspec" ".travis.yml" "CONTRIBUTING.md" "LICENSE.md" "Gemfile" "Gemfile.lock" "Rakefile"
-do
+function fix_top_files(){
+  for path in ".gitignore" ".rspec" ".travis.yml" "CONTRIBUTING.md" "LICENSE.md" "Gemfile" "Gemfile.lock" "Rakefile"
+  do
     [ -e $path ] || cp ~/git/sixarm/sixarm_ruby_week/$path .
-done
+  done
+}
 
-# Repair via in-place updates
-grep -q "task :default => [:test]" Rakefile || echo "task :default => [:test]" >> Rakefile
+function fix_rakefile_task_default(){
+  grep -q "task :default => [:test]" Rakefile || echo "task :default => [:test]" >> Rakefile
+}
 
-# Repair via building
-[ -e "coverage" ] || gemforge-test
-[ -e "doc" ] || gemforge-create-doc
-[ -e "$gem_name_version.gem" ] || gemforge-build-gemspec
-[ -e "$gem_name_version-sha512.txt" ] || gemforge-sha512
+function fix_readme_headline_arrows() {
+  sed -i.tmp 's/SixArm.com » Ruby » /SixArm.com → Ruby → /g' "$gem_name.gemspec" README.md; rm *.tmp
+}
 
-# Repair versions
-grep -q "^$gem_version$" VERSION || echo "$gem_version" > VERSION
+function fix_ds_store() {
+  grep -q ".DS_Store" .gitignore || echo ".DS_Store" >> .gitignore
+}
 
-# Fill in
-gemforge-fill-in
+function fix_coverage(){
+  [ -e "coverage" ] || gemforge-test
+}
 
-# Fix arrow
-sed -i.bak 's/SixArm.com » Ruby » /SixArm.com → Ruby → /g' "$gem_name.gemspec" README.md
+function fix_doc(){
+  [ -e "doc" ] || gemforge-create-doc
+}
 
-# Fix Mac
-grep -q ".DS_Store" .gitignore || echo ".DS_Store" >> .gitignore
+function fix_gemspec(){
+  [ -e "$gem_name_version.gem" ] || gemforge-build-gemspec
+}
+
+function fix_sha(){
+  [ -e "$gem_name_version-sha512.txt" ] || gemforge-sha512
+}
+
+function fix_fill_in(){
+  gemforge-fill-in
+}
+
+fix_version
+fix_top_files
+fix_rakefile_task_default
+fix_readme_headline_arrows
+fix_ds_store
+fix_doc
+fix_gemspec
+fix_sha
+fix_fill_in
 
 ###
 
