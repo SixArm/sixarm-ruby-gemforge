@@ -1,6 +1,0 @@
-.bundle
-.coveralls.yml
-/vendor/
-/Gemfile.lock
-/coverage/
-/coverage.data
