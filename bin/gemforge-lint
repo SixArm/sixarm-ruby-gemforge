@@ -54,14 +54,14 @@ function file_path_must_exist {
 }
 
 function file_path_must_not_exist {
-  file=$1
+  file="$1"
   [ -e "$file" ] && err "file_path_must_not_exist ␟ file: ␟ $file"
 }
 
 function file_line_num_must_eq {
-  file=$1
-  line_num=$2
-  expect_line=$3
+  file="$1"
+  line_num="$2"
+  expect_line="$3"
   actual_line=`sed -n "${line_num}p" "$file"`
   if [ "$expect_line" != "$actual_line" ]
   then
