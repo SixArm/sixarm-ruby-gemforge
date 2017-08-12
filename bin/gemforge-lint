@@ -73,13 +73,13 @@ function file_text_must_match {
   file="$1"
   regexp="$2"
   grep -q "$regexp" "$file" || err "file_text_must_match ␟ file: ␟ $file ␟ regexp: ␟ $regexp"
-done
+}
 
 function file_text_must_not_match {
   file="$1"
   regexp="$2"
   grep -q "$regexp" "$file" || err "file_text_must_not_match ␟ file: ␟ $file ␟ regexp: ␟ $regexp"
-done
+}
 
 ##
 #
