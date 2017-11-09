@@ -1,0 +1,9 @@
+#!/bin/bash
+set -euf
+DIR=$(dirname $0)
+. $DIR/gemforge-proof
+
+file="VERSION"
+
+grep -q "^$gem_version$" $file ||
+    err "$file version is wrong. ␟ Please update to: ␟ $gem_version"

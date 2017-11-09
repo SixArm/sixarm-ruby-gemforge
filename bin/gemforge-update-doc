@@ -1,0 +1,17 @@
+# Delete existing
+for f in .yardoc doc; do
+  if [ -e "$f" ]; then
+    git rm -fr "$f" || true
+    rm -fr "$f" || true
+  fi
+done
+
+# Create fresh
+mkdir doc
+yardoc lib/{*.rb,**/*.rb}
+chmod +r -R doc/
+
+# Commit
+git add .yardoc
+git add doc
+git commit -m "Update doc" .yardoc doc

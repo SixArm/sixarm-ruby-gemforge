@@ -1,0 +1,4 @@
+find test spec -type f -name \*.rb | 
+xargs -I{} grep -L '^ \+expect(' '{}' | 
+xargs -I{} grep -l '.must_' |
+xargs -I{} sed -i 's/\(^ *\)\([^ }].*\)\.\(must\|wont\)/\1expect(\2).\3/' "{}"

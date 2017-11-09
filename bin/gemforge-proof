@@ -1,0 +1,76 @@
+#!/bin/bash
+
+##
+# Do simple checking of our gem's files to ensure
+# that everything looks good before we publish.
+##
+
+set -o errexit
+
+##
+#
+# Configuration
+#
+##
+
+gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
+gem_name=`gemspec-cat | gemspec-to-gem-name`
+gem_version=`gemspec-cat | gemspec-to-gem-version`
+gem_version_major="${gem_version%%.*}"
+gem_version_above=$(($gem_version_major + 1))
+
+team="SixArm"
+repo="$gem_name"
+
+github_uri="https://github.com/$team/$repo"
+
+##
+#
+# Utilities
+#
+##
+
+out() { printf %s\\n "$*" ; }; export -f out
+err() { >&2 printf %s\\n "gemforge-proof $gem_name_version $*" ; }; export -f err
+
+##
+#
+# Assert
+#
+##
+
+file_path_must_exist() {
+  file=$1
+  [ -e "$file" ] || err "file_path_must_exist ␟ file: ␟ $file"
+}
+
+file_path_must_not_exist() {
+  file="$1"
+  [ ! -e "$file" ] || err "file_path_must_not_exist ␟ file: ␟ $file"
+}
+
+file_line_num_must_eq() {
+  file="$1"
+  line_num="$2"
+  expect_line="$3"
+  actual_line=`sed -n "${line_num}p" "$file"`
+  if [ "$expect_line" != "$actual_line" ]
+  then
+    err "file_line_num_must_eq ␟ file: ␟ $file ␟ line_num: ␟ $line_num ␟ expect: ␟ $expect_line ␟ actual: ␟ $actual_line"
+  fi
+}
+
+file_text_must_match() {
+  file="$1"
+  regexp="$2"
+  errmsg="${3:-error}"
+  grep -q "$regexp" "$file" || err "$errmsg ␟ file_text_must_match ␟ file: ␟ $file ␟ regexp: ␟ $regexp"
+}
+
+file_text_must_not_match() {
+  file="$1"
+  regexp="$2"
+  errmsg="${3:-error}"
+  grep -qv "$regexp" "$file" || err "$errmsg ␟ file_text_must_not_match ␟ file: ␟ $file ␟ regexp: ␟ $regexp"
+}
+

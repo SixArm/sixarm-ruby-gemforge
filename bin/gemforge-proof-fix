@@ -1,0 +1,66 @@
+#!/bin/bash
+set -euf
+DIR=$(dirname $0)
+. $DIR/gemforge-proof
+
+##
+#
+# Fix items, including repairing, refreshing, updating, etc.
+#
+##
+
+# We want a file name `VERSION` that contains just the version number.
+fix_version() {
+  grep -q "^$gem_version$" VERSION || echo "$gem_version" > VERSION
+}
+
+# We want a typical set of files. If any don't exist, then copy some
+# of our typical files from a different repo that we typically use.
+fix_top_files() {
+  for path in ".gitignore" ".rspec" ".travis.yml" "CONTRIBUTING.md" "LICENSE.md" "Gemfile" "Gemfile.lock" "Rakefile"
+  do
+    [ -e $path ] || cp ~/git/sixarm/sixarm_ruby_week/$path .
+  done
+}
+
+fix_rakefile_task_default() {
+  grep -q "task :default => [:test]" Rakefile || echo "task :default => [:test]" >> Rakefile
+}
+
+fix_readme_headline_arrows() {
+  sed -i.tmp 's/SixArm.com » Ruby » /SixArm.com → Ruby → /g' "$gem_name.gemspec" README.md; rm *.tmp
+}
+
+fix_ds_store() {
+  grep -q ".DS_Store" .gitignore || echo ".DS_Store" >> .gitignore
+}
+
+fix_coverage(){
+  [ -e "coverage" ] || gemforge-test
+}
+
+fix_doc() {
+  [ -e "doc" ] || gemforge-create-doc
+}
+
+fix_gemspec() {
+  [ -e "$gem_name_version.gem" ] || gemforge-build-gemspec
+}
+
+fix_sha() {
+  [ -e "$gem_name_version-sha512.txt" ] || gemforge-sha512
+}
+
+fix_fill_in() {
+  gemforge-fill-in
+}
+
+fix_version
+fix_top_files
+fix_rakefile_task_default
+fix_readme_headline_arrows
+fix_ds_store
+fix_doc
+fix_gemspec
+fix_sha
+fix_fill_in

@@ -1,0 +1,42 @@
+#!/bin/bash
+set -euf
+DIR=$(dirname $0)
+. $DIR/gemforge-proof
+
+file="$gem_name.gemspec"
+
+file_line_num_must_eq "$file" 1 "# -*- coding: utf-8 -*-"
+file_line_num_must_eq "$file" 2 ""
+file_line_num_must_eq "$file" 3 "Gem::Specification.new do |s|"
+
+for s in \
+  "^  s.name           = \"sixarm_ruby_.*\"" \
+  "^  s.summary        = \"SixArm.com → Ruby → .*\"" \
+  "^  s.description    = \".*\"" \
+  "^  s.version        = \".*\"" \
+  "^  s.author         = \"SixArm\"" \
+  "^  s.email          = \"sixarm@sixarm.com\"" \
+  "^  s.homepage       = \"http://sixarm.com/\"" \
+  "^  s.licenses       = \[.*\]" \
+  "^  s.signing_key    = \".*/sixarm-rsa-4096-x509-20150314-private.pem\"" \
+  "^  s.cert_chain     = \[\".*/sixarm-rsa-4096-x509-20150314-public.pem\"\]" \
+  "^  s.platform       = Gem::Platform::RUBY" \
+  "^  s.require_path   = \"lib\"" \
+  "^  s.has_rdoc       = true" \
+  "^  s.files = \[" \
+  "^    \"Rakefile\"," \
+  "^  s.test_files = \["
+do
+  file_text_must_match "$file" "$s"
+done
+
+for s in \
+  "^    \".gemtest\"," \
+  "^    \"CHANGES.md\"," \
+  "^    \"CONTRIBUTING.md\"," \
+  "^    \"LICENSE.md\"," \
+  "^    \"README.md\"," \
+  "^    \"VERSION\","
+do
+  file_text_must_not_match "$file" "$s"
+done

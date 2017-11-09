@@ -1,0 +1,15 @@
+#!/bin/bash
+set -euf
+DIR=$(dirname $0)
+. $DIR/gemforge-proof
+
+file="Rakefile"
+
+grep -q "t.libs.push(\"lib\", \"test\")" $file ||
+    err "$file test task needs t.libs. ␟ Please add this to the test task: t.libs.push(\"lib\", \"test\")"
+
+grep -q "t.pattern = " $file ||
+    err "$file test task needs t.pattern. ␟ Please add this to the test task: t.pattern = \"test/**/*.rb\""
+
+grep -q "task :default => :test" $file ||
+    err "$file needs default test. ␟ Please add: ␟ task :default => :test"

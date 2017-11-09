@@ -1,0 +1,46 @@
+#!/bin/bash
+set -euf
+DIR=$(dirname $0)
+. $DIR/gemforge-proof
+
+for path in \
+  ".codeclimate.yml" \
+  ".document" \
+  ".gemtest" \
+  ".git" \
+  ".rspec" \
+  "CONTRIBUTING.md" \
+  "LICENSE.md" \
+  "Gemfile" \
+  "Gemfile.lock" \
+  "Rakefile" \
+  "README.md" \
+  "VERSION" \
+  "coverage" \
+  "coverage/assets" \
+  "coverage/index.html" \
+  "doc" \
+  "lib" \
+  "lib/${gem_name}.rb" \
+  "test" \
+  "$gem_name.gemspec" \
+  "$gem_name_version.gem" \
+  "$gem_name_version-sha512.txt"
+do
+  file_path_must_exist "$path"
+done
+
+for path in \
+  "CHANGELOG.txt" \
+  "INSTALL.txt" \
+  "LICENSE.txt" \
+  "$gem_name.sha512.txt"
+do
+  file_path_must_not_exist "$path"
+done
+
+# Detect any accidental duplicates
+set +f
+ls -1 *.gem | wc -l | grep "^ *1$" > /dev/null || err "More than one gem"
+ls -1 *sha512.txt | wc -l | grep "^ *1$" > /dev/null || err "More than one sha512"
+set -f

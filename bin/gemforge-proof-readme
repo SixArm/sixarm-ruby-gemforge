@@ -1,0 +1,61 @@
+#!/bin/bash
+set -euf
+DIR=$(dirname $0)
+. $DIR/gemforge-proof
+
+file="README.md"
+
+for s in \
+  "^# SixArm.com → Ruby → .*<br> " \
+  "^* Git: <https://github.com/sixarm/$gem_name>" \
+  "^* Doc: <http://sixarm.com/$gem_name/doc>" \
+  "^* Gem: <https://rubygems.org/gems/$gem_name>" \
+  "^* Contact: " \
+  "^* Contact: Joel Parker Henderson, <joel@sixarm.com>" \
+  "^* Project: " \
+  "^* Project: \[changes\](CHANGES.md), \[license\](LICENSE.md), \[contributing\](CONTRIBUTING.md)" \
+  "^## Introduction" \
+  "^<!--header-open-->" \
+  "^<!--header-shut-->" \
+  "^<!--install-open-->" \
+  "^<!--install-shut-->" 
+do
+  file_text_must_match "$file" "$s"
+done
+
+for s in \
+  "^* Changes: See CHANGES.md file." \
+  "^* License: See LICENSE.md file." \
+  "^* Helping: See CONTRIBUTING.md file." 
+do
+  file_text_must_not_match "$file" "$s"
+done
+
+fury_uri="http://badge.fury.io/rb/$gem_name"
+fury_img="https://badge.fury.io/rb/$gem_name.svg"
+fury_badge="[![Gem Version]($fury_img)]($fury_uri)"
+
+travis_uri="https://travis-ci.org/$team/$repo"
+travis_img="https://travis-ci.org/$team/$repo.png"
+travis_badge="[![Build Status]($travis_img)]($travis_uri)"
+
+codeclimate_uri="https://codeclimate.com/github/$team/$repo"
+codeclimate_img="https://codeclimate.com/github/$team/$repo.png"
+codeclimate_badge="[![Code Climate]($codeclimate_img)]($codeclimate_uri)"
+
+coveralls_uri="https://coveralls.io/github/$team/$repo?branch=master"
+coveralls_img="https://coveralls.io/repos/$team/$repo/badge.svg?branch=master&service=github"
+coveralls_badge="[![Coverage Status]($coveralls_img)]($coveralls_uri)"
+
+file_line_num_must_eq "$file" 5 "<!--header-open-->"
+file_line_num_must_eq "$file" 7 "$fury_badge"
+file_line_num_must_eq "$file" 8 "$travis_badge"
+file_line_num_must_eq "$file" 9 "$codeclimate_badge"
+file_line_num_must_eq "$file" 10 "$coveralls_badge"
+
+#  "^To install using the command line with high security, run this:" \
+#  "^    wget http://sixarm.com/sixarm.pem" \
+#  "^    gem cert --add sixarm.pem && gem sources --add http://sixarm.com" \
+#  "^    gem install $gem_name -v \">= $gem_version, < .*\" --trust-policy HighSecurity" \
+
+exit 0

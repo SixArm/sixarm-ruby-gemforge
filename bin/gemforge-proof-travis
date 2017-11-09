@@ -1,0 +1,9 @@
+#!/bin/bash
+set -euf
+DIR=$(dirname $0)
+. $DIR/gemforge-proof
+
+file=".travis.yml"
+
+file_text_must_match "$file" "sudo: false"
+file_text_must_match "$file" "cache: bundler"

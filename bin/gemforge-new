@@ -14,7 +14,7 @@ mkdir $1
 cd $1
 mkdir -p lib/$basename
 mkdir -p test/$basename
-mkdir -p $coverage
+mkdir -p coverage
 mkdir -p doc
 cp -i $source/INSTALL.txt . 
 cp -i $source/README.rdoc .

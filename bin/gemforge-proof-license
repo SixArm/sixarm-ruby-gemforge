@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euf
+DIR=$(dirname $0)
+. $DIR/gemforge-proof
+
+file="LICENSE.md"
+
+grep -q '^# License$' $file ||
+    err "$file headline is wrong. ␟ Please fix to: ␟ # License ␞"
+
+#grep -q '^Author::\( Joel Parker Henderson, joel@joelparkerhenderson.com\| Found on the internet by Joel Parker Henderson, joel@joelparkerhenderson.com\)' $file || err "$file author is wrong"
+#  "^\(Copyright (c) Joel Parker Henderson\| Copyright the original author; please email me if you know who wrote this\)" \

@@ -1,0 +1,14 @@
+# Delete existing
+for f in coverage; do
+  if [ -e "$f" ]; then
+    git rm -fr "$f" || true
+    rm -fr "$f" || true
+  fi
+done
+
+# Create fresh
+bundle exec rake
+
+# Commit
+git add coverage
+git commit -m "Update coverage" coverage
