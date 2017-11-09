@@ -3,7 +3,7 @@
 * Doc: <http://sixarm.com/sixarm_ruby_gemforge>
 * Gem: <http://rubygems.org/gems/sixarm_ruby_>
 * Repo: <http://github.com/sixarm/sixarm_ruby_gemforge>
-<!--HEADER-SHUT-->
+<!--header-shut-->
 
 
 ## Introduction
