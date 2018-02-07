@@ -1,0 +1,3 @@
+dir=$(basename $(pwd))
+id=$(cat .codeclimate/badges/id)
+sed -i 's#\[!\[Code Climate.*#[![Code Climate Maintainability](https://api.codeclimate.com/v1/badges/$id/maintainability)](https://codeclimate.com/github/SixArm/$dir/maintainability)#' README.md
