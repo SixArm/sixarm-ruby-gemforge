@@ -1,0 +1,13 @@
+cat << EOF > .travis.yml
+sudo: false
+cache: bundler
+language: ruby
+rvm:
+  - ruby-head
+  - rbx-3
+  - 2.5
+  - 2.4
+  - 2.3
+  - 2.2
+  - 2.1
+EOF
