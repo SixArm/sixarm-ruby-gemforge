@@ -6,7 +6,7 @@ s/ Artistic */ Artistic License (Artistic-2.0)/;
 s/ BSD .*/ BSD License (BSD-3-Clause)/;
 s/ Creative *Commons.*/ Creative Commons (CC-BY-NC-SA-4.0)/;
 s/ GNU Affero General Public License.*/ GNU Affero General Public License (AGPL-3.0)/;
-s/ GNU General Public License.*/ GNU General Public License (GPL-3.0)/;
+s/ GNU General Public License.*/ GNU General Public License (GPL-2.0, GPL-3.0)/;
 s/ GNU Lesser General Public License.*/ GNU Lesser General Public License (LGPL-3.0)/;
 s/ Perl .*/ Perl Artistic License (Artistic-2.0)/;
 s/ MIT .*/ MIT License (MIT)/;
@@ -15,5 +15,5 @@ s/ Ruby .*/ Ruby License (Ruby)/;
 ' LICENSE.md
 
 sed -i.bak '
-s/"BSD", "GPL", "MIT", "PAL", "Various"/"Apache-2.0", "Artistic-2.0", "BSD-3-Clause", "CC-BY-NC-SA-4.0", "AGPL-3.0", "GPL-3.0", "LGPL-3.0", "MIT", "MPL-2.0", "Ruby"/;
+s/"BSD", "GPL", "MIT", "PAL", "Various"/"Apache-2.0", "Artistic-2.0", "BSD-3-Clause", "CC-BY-NC-SA-4.0", "AGPL-3.0", "GPL-2.0", "GPL-3.0", "LGPL-3.0", "MIT", "MPL-2.0", "Ruby"/;
 ' *.gemspec
