@@ -1,10 +1,15 @@
 cat << EOF > .travis.yml
+
+before_install:
+- gem update --system
+
 sudo: false
+
 cache: bundler
+
 language: ruby
 rvm:
   - ruby-head
-  - rbx-3
   - 2.5
   - 2.4
   - 2.3
