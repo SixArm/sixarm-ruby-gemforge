@@ -1,0 +1,47 @@
+## Functions
+
+out() { printf %s\\n "$*" ; }; export -f out
+err() { >&2 printf %s\\n "$*" ; }; export -f err
+die() { >&2 printf %s\\n "$*" ; exit 255 ; }; export -f die
+log() { printf '%s %s %s\n' "$( now )" $$ "$*" ; }; export -f log
+now() { date -u "+%Y-%m-%dT%H:%M:%S.%NZ" ; }; export -f now
+sec() { date "+%s" ; }; export -f sec
+zid() { hexdump -n 16 -v -e '16/1 "%02x" "\n"' /dev/random ; }; export -f zid
+cmd() { command -v $1 >/dev/null 2>&1 ; }; export -f cmd
+
+## Assertions
+
+file_path_must_exist() {
+  file=$1
+  [ -e "$file" ] || err "file_path_must_exist ␟ file: ␟ $file"
+}
+
+file_path_must_not_exist() {
+  file="$1"
+  [ ! -e "$file" ] || err "file_path_must_not_exist ␟ file: ␟ $file"
+}
+
+file_line_num_must_eq() {
+  file="$1"
+  line_num="$2"
+  expect_line="$3"
+  actual_line=`sed -n "${line_num}p" "$file"`
+  if [ "$expect_line" != "$actual_line" ]
+  then
+    err "file_line_num_must_eq ␟ file: ␟ $file ␟ line_num: ␟ $line_num ␟ expect: ␟ $expect_line ␟ actual: ␟ $actual_line"
+  fi
+}
+
+file_text_must_match() {
+  file="$1"
+  regexp="$2"
+  errmsg="${3:-error}"
+  grep -q "$regexp" "$file" || err "$errmsg ␟ file_text_must_match ␟ file: ␟ $file ␟ regexp: ␟ $regexp"
+}
+
+file_text_must_not_match() {
+  file="$1"
+  regexp="$2"
+  errmsg="${3:-error}"
+  grep -qv "$regexp" "$file" || err "$errmsg ␟ file_text_must_not_match ␟ file: ␟ $file ␟ regexp: ␟ $regexp"
+}

@@ -10,11 +10,6 @@ set -o errexit
 #   => mygem-1.2.3-sha512.txt
 ##
 
-function die ( ) {
-   echo $@ >&2
-   exit 1
-}
-
 # Discover the sha command.
 #
 #   * sha512sum: typical on Linux

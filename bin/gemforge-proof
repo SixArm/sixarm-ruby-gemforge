@@ -1,11 +1,42 @@
-#!/bin/bash
+#!/bin/sh
+set -euf
+DIR=$(dirname $0)
+. $DIR/gemforge
 
-##
-# Do simple checking of our gem's files to ensure
-# that everything looks good before we publish.
-##
+## Program Tracking ##
 
-set -o errexit
+program_command="gemforge-proof"
+program_version="5.0.0"
+program_updated="2018-05-12"
+program_license="GPL"
+program_contact="Joel Parker Henderson (joel@joelparkerhenderson.com)"
+
+## Help Function ##
+
+help(){
+cat << EOF
+gemforge-proof
+
+Proof our gem and its many files; this is similar to lint.
+
+Example:
+
+    cd mygem
+    gemforge-proof
+    
+Tracking:
+
+  * Command: $program_command
+  * Version: $program_version
+  * Updated: $program_updated
+  * License: $program_license
+  * Contact: $program_contact
+EOF
+}
+
+## Functions
+
+errx() { err "gemforge-proof $gem_name_version $*" ; }; export -f errx
 
 ##
 #
@@ -23,54 +54,4 @@ team="SixArm"
 repo="$gem_name"
 
 github_uri="https://github.com/$team/$repo"
-
-##
-#
-# Utilities
-#
-##
-
-out() { printf %s\\n "$*" ; }; export -f out
-err() { >&2 printf %s\\n "gemforge-proof $gem_name_version $*" ; }; export -f err
-
-##
-#
-# Assert
-#
-##
-
-file_path_must_exist() {
-  file=$1
-  [ -e "$file" ] || err "file_path_must_exist ␟ file: ␟ $file"
-}
-
-file_path_must_not_exist() {
-  file="$1"
-  [ ! -e "$file" ] || err "file_path_must_not_exist ␟ file: ␟ $file"
-}
-
-file_line_num_must_eq() {
-  file="$1"
-  line_num="$2"
-  expect_line="$3"
-  actual_line=`sed -n "${line_num}p" "$file"`
-  if [ "$expect_line" != "$actual_line" ]
-  then
-    err "file_line_num_must_eq ␟ file: ␟ $file ␟ line_num: ␟ $line_num ␟ expect: ␟ $expect_line ␟ actual: ␟ $actual_line"
-  fi
-}
-
-file_text_must_match() {
-  file="$1"
-  regexp="$2"
-  errmsg="${3:-error}"
-  grep -q "$regexp" "$file" || err "$errmsg ␟ file_text_must_match ␟ file: ␟ $file ␟ regexp: ␟ $regexp"
-}
-
-file_text_must_not_match() {
-  file="$1"
-  regexp="$2"
-  errmsg="${3:-error}"
-  grep -qv "$regexp" "$file" || err "$errmsg ␟ file_text_must_not_match ␟ file: ␟ $file ␟ regexp: ␟ $regexp"
-}
 
