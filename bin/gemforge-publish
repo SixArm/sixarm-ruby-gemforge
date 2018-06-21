@@ -5,8 +5,8 @@ set -euf
 ## Program Tracking ##
 
 program_command="gemforge-publish"
-program_version="5.0.0"
-program_updated="2018-05-12"
+program_version="5.0.1"
+program_updated="2018-06-21"
 program_license="GPL"
 program_contact="Joel Parker Henderson (joel@joelparkerhenderson.com)"
 
@@ -65,9 +65,6 @@ basename=`basename $pwd`
 gem_name=`gemspec-cat | gemspec-to-gem-name`
 gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
 gem_version=`gemspec-cat | gemspec-to-gem-version`
-commit_msg=$1
-
-echo gemforge-publish $gem_name_version $commit_msg
 
 ### BUILD
 
@@ -80,7 +77,7 @@ gemforge-proof      || exit "gemforge-proof failed for gem $gem_name_version"
 
 ### PUBLISH
 
-#echo 'PUBLISH GITHUB...' && gemforge-publish-to-github "$commit_msg" && echo '...GITHUB DONE'
+#echo 'PUBLISH GITHUB...' && gemforge-publish-to-github && echo '...DONE'
 echo 'PUBLISH TO LOCAL HOST...'  && gemforge-publish-to-local-host  && echo '...DONE'
 echo 'PUBLISH TO REMOTE HOST...' && gemforge-publish-to-remote-host && echo '...DONE'
 echo 'PUBLISH TO RUBYDOC...' && gemforge-publish-to-rubydoc && echo '...DONE'
