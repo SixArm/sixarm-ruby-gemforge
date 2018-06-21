@@ -1,5 +1,6 @@
 #!/bin/sh
 set -euf
+. sixarm-shell-functions
 
 ## Program Tracking ##
 
@@ -67,7 +68,6 @@ gem_version=`gemspec-cat | gemspec-to-gem-version`
 commit_msg=$1
 
 echo gemforge-publish $gem_name_version $commit_msg
-
 
 ### BUILD
 
