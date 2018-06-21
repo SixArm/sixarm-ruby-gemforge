@@ -1,14 +1,13 @@
 #!/bin/bash
 set -euf
 DIR=$(dirname $0)
-. $DIR/gemforge-proof
+. $DIR/gemforge-proof-00
 
 file=".gitignore"
 
 # Must have
 for s in \
   "/.bundle" \
-  "/.coveralls.yml" \
   "/.yardoc" \
   "/Gemfile.lock" \
   "/vendor/" \
@@ -20,7 +19,8 @@ done
 
 # Must not have
 for s in \
-  "doc"
+  "doc" \
+  "/.coveralls.yml"
 do
   file_text_must_not_match "$file" "^$s$"
 done

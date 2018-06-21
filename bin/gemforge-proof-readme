@@ -1,9 +1,24 @@
 #!/bin/bash
 set -euf
 DIR=$(dirname $0)
-. $DIR/gemforge-proof
+. $DIR/gemforge-proof-00
 
 file="README.md"
+
+fury_uri="http://badge.fury.io/rb/$gem_name"
+fury_img="https://badge.fury.io/rb/$gem_name.svg"
+fury_badge="[![Gem Version]($fury_img)]($fury_uri)"
+fury_regex="\[!\[Gem Version\]($fury_img)\]($fury_uri)"
+
+travis_uri="https://travis-ci.org/$team/$repo"
+travis_img="https://travis-ci.org/$team/$repo.png"
+travis_badge="[![Build Status]($travis_img)]($travis_uri)"
+travis_regex="\[!\[Build Status\]($travis_img)]($travis_uri)"
+
+codeclimate_uri="https://codeclimate.com/github/$team/$repo/maintainability"
+codeclimate_img="https://api.codeclimate.com/v1/badges/.*/maintainability"
+codeclimate_badge="[![Code Climate Maintainability]($codeclimate_img)]($codeclimate_uri)"
+codeclimate_regex="\[!\[Code Climate Maintainability\]($codeclimate_img)\]($codeclimate_uri)"
 
 for s in \
   "^# SixArm.com → Ruby → .*<br> " \
@@ -18,7 +33,10 @@ for s in \
   "^<!--header-open-->" \
   "^<!--header-shut-->" \
   "^<!--install-open-->" \
-  "^<!--install-shut-->" 
+  "^<!--install-shut-->" \
+  "$travis_regex" \
+  "$fury_regex" \
+  "$codeclimate_regex"
 do
   file_text_must_match "$file" "$s"
 done
@@ -26,32 +44,12 @@ done
 for s in \
   "^* Changes: See CHANGES.md file." \
   "^* License: See LICENSE.md file." \
-  "^* Helping: See CONTRIBUTING.md file." 
+  "^* Helping: See CONTRIBUTING.md file." \
+  "Coveralls" \
+  "coveralls"
 do
   file_text_must_not_match "$file" "$s"
 done
-
-fury_uri="http://badge.fury.io/rb/$gem_name"
-fury_img="https://badge.fury.io/rb/$gem_name.svg"
-fury_badge="[![Gem Version]($fury_img)]($fury_uri)"
-
-travis_uri="https://travis-ci.org/$team/$repo"
-travis_img="https://travis-ci.org/$team/$repo.png"
-travis_badge="[![Build Status]($travis_img)]($travis_uri)"
-
-codeclimate_uri="https://codeclimate.com/github/$team/$repo"
-codeclimate_img="https://codeclimate.com/github/$team/$repo.png"
-codeclimate_badge="[![Code Climate]($codeclimate_img)]($codeclimate_uri)"
-
-coveralls_uri="https://coveralls.io/github/$team/$repo?branch=master"
-coveralls_img="https://coveralls.io/repos/$team/$repo/badge.svg?branch=master&service=github"
-coveralls_badge="[![Coverage Status]($coveralls_img)]($coveralls_uri)"
-
-file_line_num_must_eq "$file" 5 "<!--header-open-->"
-file_line_num_must_eq "$file" 7 "$fury_badge"
-file_line_num_must_eq "$file" 8 "$travis_badge"
-file_line_num_must_eq "$file" 9 "$codeclimate_badge"
-file_line_num_must_eq "$file" 10 "$coveralls_badge"
 
 #  "^To install using the command line with high security, run this:" \
 #  "^    wget http://sixarm.com/sixarm.pem" \

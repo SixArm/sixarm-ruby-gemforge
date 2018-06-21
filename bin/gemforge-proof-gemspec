@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euf
 DIR=$(dirname $0)
-. $DIR/gemforge-proof
+. $DIR/gemforge-proof-00
 
 file="$gem_name.gemspec"
 
@@ -22,7 +22,6 @@ for s in \
   "^  s.cert_chain     = \[\".*/sixarm-rsa-4096-x509-20180113-public.pem\"\]" \
   "^  s.platform       = Gem::Platform::RUBY" \
   "^  s.require_path   = \"lib\"" \
-  "^  s.has_rdoc       = true" \
   "^  s.files = \[" \
   "^    \"Rakefile\"," \
   "^  s.test_files = \["
@@ -36,7 +35,8 @@ for s in \
   "^    \"CONTRIBUTING.md\"," \
   "^    \"LICENSE.md\"," \
   "^    \"README.md\"," \
-  "^    \"VERSION\","
+  "^    \"VERSION\"," \
+  " s.has_rdoc"
 do
   file_text_must_not_match "$file" "$s"
 done

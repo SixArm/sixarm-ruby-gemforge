@@ -1,14 +1,14 @@
 #!/bin/bash
 set -euf
 DIR=$(dirname $0)
-. $DIR/gemforge-proof
+. $DIR/gemforge-proof-00
 
 file="CHANGES.md"
 
 grep -q "^# Changes$" "$file" ||
-    err "$file headline is wrong. ␟ Please fix to: ␟ # Changes"
+  err "$file headline is wrong. ␟ Please fix to: ␟ # Changes"
 
 cat $file | grep -v ' etc\.$' | grep -q '\.$' &&
-    err "$file has line that ends in period. ␟ Please delete period."
+  err "$file has line that ends in period. ␟ Please delete period."
 
 exit 0

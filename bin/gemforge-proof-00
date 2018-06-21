@@ -1,0 +1,57 @@
+#!/bin/sh
+set -euf
+DIR=$(dirname $0)
+. $DIR/gemforge
+
+## Program Tracking ##
+
+program_command="gemforge-proof"
+program_version="5.0.0"
+program_updated="2018-06-21"
+program_license="GPL"
+program_contact="Joel Parker Henderson (joel@joelparkerhenderson.com)"
+
+## Help Function ##
+
+help(){
+cat << EOF
+gemforge-proof
+
+Proof our gem and its many files; this is similar to lint.
+
+Example:
+
+    cd mygem
+    gemforge-proof
+    
+Tracking:
+
+  * Command: $program_command
+  * Version: $program_version
+  * Updated: $program_updated
+  * License: $program_license
+  * Contact: $program_contact
+EOF
+}
+
+## Functions
+
+errx() { err "gemforge-proof $gem_name_version $*" ; }; export -f errx
+
+##
+#
+# Configuration
+#
+##
+
+gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
+gem_name=`gemspec-cat | gemspec-to-gem-name`
+gem_version=`gemspec-cat | gemspec-to-gem-version`
+gem_version_major="${gem_version%%.*}"
+gem_version_above=$(($gem_version_major + 1))
+
+team="SixArm"
+repo="$gem_name"
+
+github_uri="https://github.com/$team/$repo"
+
