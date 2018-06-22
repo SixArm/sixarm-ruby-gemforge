@@ -1,0 +1,6 @@
+#!/bin/sh
+set -euf
+DIR=$(dirname $0)
+. $DIR/gemforge
+
+out $(gem_version) > VERSION

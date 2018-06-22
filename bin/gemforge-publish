@@ -59,8 +59,8 @@ cmd "yard" || die "cmd yard"
 ### BUILD
 
 gemforge-rm-old-files
-gem build --quiet *.gemspec
-out $(gem_version) > VERSION
+gemforge-update-build
+gemforge-update-version
 gemforge-sha512     || exit "gemforge-sha512 failed for gem $(gem_name_version)"
 gemforge-update-doc || exit "gemforge-update-doc failed for gem $(gem_name_version)"
 gemforge-proof      || exit "gemforge-proof failed for gem $(gem_name_version)"

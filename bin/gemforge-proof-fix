@@ -50,7 +50,7 @@ fix_doc() {
 }
 
 fix_gemspec() {
-  [ -e "$_gem_name_version.gem" ] || gemforge-build-gemspec
+  [ -e "$_gem_name_version.gem" ] || gemforge-update-build
 }
 
 fix_sha() {
