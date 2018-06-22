@@ -1,30 +1,35 @@
 #!/bin/bash
 set -euf
 DIR=$(dirname $0)
-. $DIR/gemforge-proof-00
+. $DIR/gemforge
+
+_team=$(team)
+_repo=$(repo)
+_gem_name=$(gem_name)
+_gem_name_version=$(gem_name_version)
 
 file="README.md"
 
-fury_uri="http://badge.fury.io/rb/$gem_name"
-fury_img="https://badge.fury.io/rb/$gem_name.svg"
+fury_uri="http://badge.fury.io/rb/$_gem_name"
+fury_img="https://badge.fury.io/rb/$_gem_name.svg"
 fury_badge="[![Gem Version]($fury_img)]($fury_uri)"
 fury_regex="\[!\[Gem Version\]($fury_img)\]($fury_uri)"
 
-travis_uri="https://travis-ci.org/$team/$repo"
-travis_img="https://travis-ci.org/$team/$repo.png"
+travis_uri="https://travis-ci.org/$_team/$_repo"
+travis_img="https://travis-ci.org/$_team/$_repo.png"
 travis_badge="[![Build Status]($travis_img)]($travis_uri)"
 travis_regex="\[!\[Build Status\]($travis_img)]($travis_uri)"
 
-codeclimate_uri="https://codeclimate.com/github/$team/$repo/maintainability"
+codeclimate_uri="https://codeclimate.com/github/$_team/$_repo/maintainability"
 codeclimate_img="https://api.codeclimate.com/v1/badges/.*/maintainability"
 codeclimate_badge="[![Code Climate Maintainability]($codeclimate_img)]($codeclimate_uri)"
 codeclimate_regex="\[!\[Code Climate Maintainability\]($codeclimate_img)\]($codeclimate_uri)"
 
 for s in \
   "^# SixArm.com → Ruby → .*<br> " \
-  "^* Git: <https://github.com/sixarm/$gem_name>" \
-  "^* Doc: <http://sixarm.com/$gem_name/doc>" \
-  "^* Gem: <https://rubygems.org/gems/$gem_name>" \
+  "^* Git: <https://github.com/sixarm/$_gem_name>" \
+  "^* Doc: <http://sixarm.com/$_gem_name/doc>" \
+  "^* Gem: <https://rubygems.org/gems/$_gem_name>" \
   "^* Contact: " \
   "^* Contact: Joel Parker Henderson, <joel@sixarm.com>" \
   "^* Project: " \
@@ -54,6 +59,6 @@ done
 #  "^To install using the command line with high security, run this:" \
 #  "^    wget http://sixarm.com/sixarm.pem" \
 #  "^    gem cert --add sixarm.pem && gem sources --add http://sixarm.com" \
-#  "^    gem install $gem_name -v \">= $gem_version, < .*\" --trust-policy HighSecurity" \
+#  "^    gem install $_gem_name -v \">= $_gem_version, < .*\" --trust-policy HighSecurity" \
 
 exit 0

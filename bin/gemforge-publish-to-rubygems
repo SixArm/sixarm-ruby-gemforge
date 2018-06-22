@@ -1,4 +1,8 @@
-#!/bin/bash
+#!/bin/sh
+set -o errexit
+DIR=$(dirname $0)
+. $DIR/gemforge
+
 gem push *.gem
 
 

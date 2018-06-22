@@ -1,3 +1,5 @@
+#!bin/sh
+
 ## Functions
 
 out() { printf %s\\n "$*" ; }; export -f out
@@ -8,6 +10,23 @@ now() { date -u "+%Y-%m-%dT%H:%M:%S.%NZ" ; }; export -f now
 sec() { date "+%s" ; }; export -f sec
 zid() { hexdump -n 16 -v -e '16/1 "%02x" "\n"' /dev/random ; }; export -f zid
 cmd() { command -v $1 >/dev/null 2>&1 ; }; export -f cmd
+
+## Gem variants
+
+gem_name() { out $(gemspec-cat | gemspec-to-gem-name); };
+gem_name_version() { out $(gemspec-cat | gemspec-to-gem-name-version); };
+gem_version() { out $(gemspec-cat | gemspec-to-gem-version); };
+gem_version_major() { x=$(gem_version); out "${x%%.*}"; };
+gem_version_above() { x=$(gem_version_major); out $(($x + 1)); };
+
+## Hosting
+
+github_uri() { out "https://github.com/$(team)/$(repo)"; };
+
+## Configuration
+
+team() { out "SixArm"; };
+repo() { gem_name; };
 
 ## Assertions
 

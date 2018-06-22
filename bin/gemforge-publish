@@ -1,11 +1,12 @@
 #!/bin/sh
 set -euf
-. sixarm-shell-functions
+DIR=$(dirname $0)
+. $DIR/gemforge
 
 ## Program Tracking ##
 
 program_command="gemforge-publish"
-program_version="5.0.1"
+program_version="5.0.2"
 program_updated="2018-06-21"
 program_license="GPL"
 program_contact="Joel Parker Henderson (joel@joelparkerhenderson.com)"
@@ -55,32 +56,21 @@ cmd "gem"  || die "cmd gem"
 cmd "ruby" || die "cmd ruby"
 cmd "yard" || die "cmd yard"
 
-# Paths
-gem='/usr/bin/env gem'
-ruby='/usr/bin/env ruby'
-
-# Where are we running?
-pwd=`pwd`
-basename=`basename $pwd`
-gem_name=`gemspec-cat | gemspec-to-gem-name`
-gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
-gem_version=`gemspec-cat | gemspec-to-gem-version`
-
 ### BUILD
 
 gemforge-rm-old-files
 gem build --quiet *.gemspec
-echo "$gem_version" > VERSION
-gemforge-sha512     || exit "gemforge-sha512 failed for gem $gem_name_version"
-gemforge-update-doc || exit "gemforge-update-doc failed for gem $gem_name_version"
-gemforge-proof      || exit "gemforge-proof failed for gem $gem_name_version"
+out $(gem_version) > VERSION
+gemforge-sha512     || exit "gemforge-sha512 failed for gem $(gem_name_version)"
+gemforge-update-doc || exit "gemforge-update-doc failed for gem $(gem_name_version)"
+gemforge-proof      || exit "gemforge-proof failed for gem $(gem_name_version)"
 
 ### PUBLISH
 
-#echo 'PUBLISH GITHUB...' && gemforge-publish-to-github && echo '...DONE'
-echo 'PUBLISH TO LOCAL HOST...'  && gemforge-publish-to-local-host  && echo '...DONE'
-echo 'PUBLISH TO REMOTE HOST...' && gemforge-publish-to-remote-host && echo '...DONE'
-echo 'PUBLISH TO RUBYDOC...' && gemforge-publish-to-rubydoc && echo '...DONE'
-echo 'PUBLISH TO RUBYGEMS...' && gemforge-publish-to-rubygems && echo '...DONE'
+#out 'PUBLISH GITHUB...' && gemforge-publish-to-github && out '...DONE'
+#out 'PUBLISH TO LOCAL HOST...'  && gemforge-publish-to-local-host  && out '...DONE'
+#out 'PUBLISH TO REMOTE HOST...' && gemforge-publish-to-remote-host && out '...DONE'
+out 'PUBLISH TO RUBYDOC...' && gemforge-publish-to-rubydoc && out '...DONE'
+out 'PUBLISH TO RUBYGEMS...' && gemforge-publish-to-rubygems && out '...DONE'
 
 

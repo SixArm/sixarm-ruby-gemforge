@@ -1,7 +1,10 @@
 #!/bin/bash
 set -euf
 DIR=$(dirname $0)
-. $DIR/gemforge-proof-00
+. $DIR/gemforge
+
+_gem_name=$(gem_name)
+_gem_name_version=$(gem_name_version)
 
 for path in \
   ".codeclimate.yml" \
@@ -21,11 +24,11 @@ for path in \
   "coverage/index.html" \
   "doc" \
   "lib" \
-  "lib/${gem_name}.rb" \
+  "lib/$_gem_name.rb" \
   "test" \
-  "$gem_name.gemspec" \
-  "$gem_name_version.gem" \
-  "$gem_name_version-sha512.txt"
+  "$_gem_name.gemspec" \
+  "$_gem_name_version.gem" \
+  "$_gem_name_version-sha512.txt"
 do
   file_path_must_exist "$path"
 done
@@ -34,7 +37,7 @@ for path in \
   "CHANGELOG.txt" \
   "INSTALL.txt" \
   "LICENSE.txt" \
-  "$gem_name.sha512.txt"
+  "$_gem_name.sha512.txt"
 do
   file_path_must_not_exist "$path"
 done

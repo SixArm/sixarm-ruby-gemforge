@@ -1,4 +1,7 @@
 #!/bin/sh
+set -euf
+DIR=$(dirname $0)
+. $DIR/gemforge
 
 gemforge-proof-changes
 gemforge-proof-fix

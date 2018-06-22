@@ -1,9 +1,12 @@
 #!/bin/bash
 set -euf
 DIR=$(dirname $0)
-. $DIR/gemforge-proof-00
+. $DIR/gemforge
 
-for file in `find test/${gem_name}_test -type f -name "*_test.rb"`
+_gem_name=$(gem_name)
+_gem_name_version=$(gem_name_version)
+
+for file in `find test/${_gem_name}_test -type f -name "*_test.rb"`
 do
     grep -q "^Minitest::Test .* MiniTest::Unit::TestCase" "$file" &&
         err "$file contains Minitest::Test...Test::Unit::TestCase. ␟ Please delete that line, such as running: ␟ sed -i '/^Minitest::Test .* MiniTest::Unit::TestCase/d' test/{*.rb,**/*.rb}"
@@ -19,5 +22,5 @@ do
     # We do not have each file directly require "minitest/autorun".
     # We prefer to require "foo_fest", which is in the ./test/ directory,
     # and which requires minitest/autorun, simplecov, and any other needs.
-    file_line_num_must_eq "$file" 2 "require \"${gem_name}_test\""
+    file_line_num_must_eq "$file" 2 "require \"${_gem_name}_test\""
 done

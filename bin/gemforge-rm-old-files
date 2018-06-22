@@ -1,5 +1,7 @@
 #!/bin/sh
 set -o errexit
+DIR=$(dirname $0)
+. $DIR/gemforge
 
 ##
 # Remove old files from our gem's directory.

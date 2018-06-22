@@ -1,5 +1,7 @@
 #!/bin/sh
-set -euf
+set -o errexit
+DIR=$(dirname $0)
+. $DIR/gemforge
 
 ## Program Tracking ##
 
@@ -54,9 +56,8 @@ done
 # Create fresh
 mkdir doc
 yardoc lib/{*.rb,**/*.rb}
-chmod +r -R doc/
+chmod -R +r doc/
 
 # Commit
-git add .yardoc
 git add doc
-git commit -m "Update doc" .yardoc doc
+git commit -m "Update doc" doc

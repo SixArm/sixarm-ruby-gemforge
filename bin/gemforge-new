@@ -1,5 +1,7 @@
 #!/bin/sh
 set -o errexit
+DIR=$(dirname $0)
+. $DIR/gemforge
 
 ##
 # Ruby gem:create a new gem directory structure and copy in some starter files                                          # Syntax:   

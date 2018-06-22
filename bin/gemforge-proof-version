@@ -1,9 +1,11 @@
 #!/bin/bash
 set -euf
 DIR=$(dirname $0)
-. $DIR/gemforge-proof-00
+. $DIR/gemforge
+
+_gem_version=$(gem_version)
 
 file="VERSION"
 
-grep -q "^$gem_version$" $file ||
-    err "$file version is wrong. ␟ Please update to: ␟ $gem_version"
+grep -q "^$_gem_version$" $file ||
+    err "$file version is wrong. ␟ Please update to: ␟ $_gem_version"

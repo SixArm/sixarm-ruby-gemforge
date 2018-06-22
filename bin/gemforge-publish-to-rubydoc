@@ -1,8 +1,12 @@
-#!/bin/bash
-gem_name=`gemspec-cat | gemspec-to-gem-name`
-data="url=git://github.com/SixArm/$gem_name.git&commit=&scheme=git&submit=Go"
-echo $data
-curl --show-error --data "$data" http://rubydoc.info/checkout
+#!/bin/sh
+DIR=$(dirname $0)
+. $DIR/gemforge
+
+_gem_name=$(gem_name)
+_team=$(team)
+
+data="url=git://github.com/$_team/$_gem_name.git&commit=&scheme=git&submit=Go"
+curl --show-error --data "$data" "http://rubydoc.info/checkout"
 
 
 

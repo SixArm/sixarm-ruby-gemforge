@@ -1,3 +1,8 @@
+#!/bin/sh
+set -o errexit
+DIR=$(dirname $0)
+. $DIR/gemforge
+
 # Delete existing
 for f in coverage; do
   if [ -e "$f" ]; then

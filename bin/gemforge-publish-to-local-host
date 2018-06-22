@@ -1,5 +1,7 @@
 #!/bin/sh
 set -o errexit
+DIR=$(dirname $0)
+. $DIR/gemforge
 
 ##
 # Publish our gem to our local host, 
@@ -12,19 +14,19 @@ set -o errexit
 ##
 
 # Get the current directory's gem info
-gem_name=`gemspec-cat | gemspec-to-gem-name`
-gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
+_gem_name=$(gem_name)
+_gem_name_version=$(gem_name_version)
 
 # Where on the local host to put the gem directory
-dst=/var/www/sixarm.com/html
-gem_generate_directory=$dst/gems
+_dst=/var/www/www.sixarm.com/html
+_gem_generate_directory=$_dst/gems
 
 # Sync all the gem files
-rsync --recursive -C --hard-links --exclude='.git/' --executability --delete --times * $dst/$gem_name/
+rsync --recursive -C --hard-links --exclude='.git/' --executability --delete --times * $_dst/$_gem_name/
 
 # Also, put the gem file in the /gems directory so it can be built
-rsync *.gem $gem_generate_directory/
+rsync *.gem $_gem_generate_directory/
 
 # Generate
-gem generate --backtrace --directory=$gem_generate_directory/
+gem generate --backtrace --directory=$_gem_generate_directory/
 

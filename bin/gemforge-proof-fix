@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euf
 DIR=$(dirname $0)
-. $DIR/gemforge-proof-00
+. $DIR/gemforge
 
 ##
 #
@@ -11,7 +11,7 @@ DIR=$(dirname $0)
 
 # We want a file name `VERSION` that contains just the version number.
 fix_version() {
-  grep -q "^$gem_version$" VERSION || echo "$gem_version" > VERSION
+  grep -q "^$_gem_version$" VERSION || out "$_gem_version" > VERSION
 }
 
 # We want a typical set of files. If any don't exist, then copy some
@@ -24,17 +24,17 @@ fix_top_files() {
 }
 
 fix_rakefile_task_default() {
-  grep -q "task :default => [:test]" Rakefile || echo "task :default => [:test]" >> Rakefile
+  grep -q "task :default => [:test]" Rakefile || out "task :default => [:test]" >> Rakefile
 }
 
 fix_readme_headline_arrows() {
-  sed -i.tmp 's/SixArm.com » Ruby » /SixArm.com → Ruby → /g' "$gem_name.gemspec" README.md
-  rm -f "$gem_name.gemspec.tmp"
+  sed -i.tmp 's/SixArm.com » Ruby » /SixArm.com → Ruby → /g' "$_gem_name.gemspec" README.md
+  rm -f "$_gem_name.gemspec.tmp"
   rm -f "README.md.tmp"
 }
 
 fix_ds_store() {
-  grep -q ".DS_Store" .gitignore || echo ".DS_Store" >> .gitignore
+  grep -q ".DS_Store" .gitignore || out ".DS_Store" >> .gitignore
 }
 
 fix_coverage(){
@@ -46,11 +46,11 @@ fix_doc() {
 }
 
 fix_gemspec() {
-  [ -e "$gem_name_version.gem" ] || gemforge-build-gemspec
+  [ -e "$_gem_name_version.gem" ] || gemforge-build-gemspec
 }
 
 fix_sha() {
-  [ -e "$gem_name_version-sha512.txt" ] || gemforge-sha512
+  [ -e "$_gem_name_version-sha512.txt" ] || gemforge-sha512
 }
 
 fix_fill_in() {

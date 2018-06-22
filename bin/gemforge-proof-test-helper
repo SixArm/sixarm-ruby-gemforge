@@ -1,9 +1,11 @@
 #!/bin/bash
 set -euf
 DIR=$(dirname $0)
-. $DIR/gemforge-proof-00
+. $DIR/gemforge
 
-file="test/${gem_name}_test.rb"
+_gem_name=$(gem_name)
+
+file="test/${_gem_name}_test.rb"
 
 file_line_num_must_eq "$file" 1 "# -*- coding: utf-8 -*-"
 file_line_num_must_eq "$file" 2 "require \"minitest/autorun\""
