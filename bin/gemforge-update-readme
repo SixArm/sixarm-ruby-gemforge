@@ -14,7 +14,7 @@ file=README.md
 
 file_section_refresh(){
 	file="$1"; key="$2"; text="$3"
-	sed -i "/<!--$key-OPEN-->/,/<!--$key-SHUT-->/c\<!--$key-OPEN-->$text<!--$key-SHUT-->" "$file"
+	sed -i "/<!--$key-open-->/,/<!--$key-shut-->/c\<!--$key-open-->$text<!--$key-shut-->" "$file"
 }
 
 ###
@@ -34,7 +34,7 @@ link2="* Gem: <https://rubygems.org/gems/$_gem_name>\n"
 link3="* Contact: Joel Parker Henderson, <joel@sixarm.com>\n"
 link4="* Project: [changes](CHANGES.md), [license](LICENSE.md), [contributing](CONTRIBUTING.md).\n"
 
-file_section_refresh "$file" "HEADER" "\n\n$badge0$badge1$badge2$badge3\n$link0$link1$link2$link3$link4\n"
+file_section_refresh "$file" "header" "\n\n$badge0$badge1$badge2$badge3\n$link0$link1$link2$link3$link4\n"
 
 ###
 #
@@ -56,4 +56,4 @@ req0="### Require\n\n"
 req1="To require the gem in your code:\n\n"
 req2="    require '$_gem_name'\n\n"
 
-file_section_refresh "$file" "INSTALL" "\n\n$top0$gem0$gem1$gem2$gemfile0$gemfile1$gemfile2$req0$req1$req2"
+file_section_refresh "$file" "install" "\n\n$top0$gem0$gem1$gem2$gemfile0$gemfile1$gemfile2$req0$req1$req2"
