@@ -28,7 +28,7 @@ fix_top_files() {
 }
 
 fix_rakefile_task_default() {
-  grep -q "task :default => [:test]" Rakefile || out "task :default => [:test]" >> Rakefile
+  grep -q "task :default => \[:test\]" Rakefile || out "task :default => [:test]" >> Rakefile
 }
 
 fix_readme_headline_arrows() {
