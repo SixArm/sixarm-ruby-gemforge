@@ -46,7 +46,7 @@ fix_coverage(){
 }
 
 fix_doc() {
-  [ -e "doc" ] || gemforge-create-doc
+  [ -e "doc" ] || gemforge-update-doc
 }
 
 fix_gemspec() {
