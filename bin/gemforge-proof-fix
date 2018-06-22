@@ -3,6 +3,10 @@ set -euf
 DIR=$(dirname $0)
 . $DIR/gemforge
 
+_gem_name=$(gem_name)
+_gem_version=$(gem_version)
+_gem_name_version=$(gem_name_version)
+
 ##
 #
 # Fix items, including repairing, refreshing, updating, etc.
