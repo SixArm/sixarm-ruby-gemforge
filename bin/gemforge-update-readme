@@ -1,14 +1,13 @@
-#!/bin/bash
+#!/bin/sh
 set -o errexit
+DIR=$(dirname $0)
+. $DIR/gemforge
 
-gem_name=`gemspec-cat | gemspec-to-gem-name`
-gem_name_version=`gemspec-cat | gemspec-to-gem-name-version`
-
-gem_version=`gemspec-cat | gemspec-to-gem-version`
-gem_version_lt=$((${gem_version%%.*} + 1))
-
-github_team_repo=`github-team-repo`
-github_repo=${github_team_repo##*/}
+_gem_name=$(gem_name)
+_gem_name_version=$(gem_name_version)
+_gem_version=$(gem_version)
+_team=$(team)
+_repo=$(repo)
 
 file=README.md
 
@@ -24,17 +23,16 @@ file_section_refresh(){
 ###
 
 badge0="[![Gem Version](https://badge.fury.io/rb/$_gem_name.svg)](http://badge.fury.io/rb/$_gem_name)\n"
-badge1="[![Build Status](https://travis-ci.org/$github_team_repo.png)](https://travis-ci.org/$github_team_repo)\n"
-badge2="[![Code Climate](https://codeclimate.com/github/$github_team_repo.png)](https://codeclimate.com/github/$github_team_repo)\n"
-badge3="[![Coverage Status](https://coveralls.io/repos/$github_team_repo/badge.svg?branch=master&service=github)](https://coveralls.io/github/$github_team_repo?branch=master)\n"
+badge1="[![Build Status](https://travis-ci.org/$_team/$_repo.png)](https://travis-ci.org/$_team/$_repo)\n"
+badge2="[![Code Climate](https://codeclimate.com/github/$_team/$_repo.png)](https://codeclimate.com/github/$_team/$_repo)\n"
 
-link0="* Git: <https://github.com/sixarm/$github_repo>\n"
+link0="* Git: <https://github.com/sixarm/$_team/$_repo>\n"
 link1="* Doc: <http://sixarm.com/$_gem_name/doc>\n"
 link2="* Gem: <https://rubygems.org/gems/$_gem_name>\n"
 link3="* Contact: Joel Parker Henderson, <joel@sixarm.com>\n"
 link4="* Project: [changes](CHANGES.md), [license](LICENSE.md), [contributing](CONTRIBUTING.md).\n"
 
-file_section_refresh "$file" "header" "\n\n$badge0$badge1$badge2$badge3\n$link0$link1$link2$link3$link4\n"
+file_section_refresh "$file" "header" "\n\n$badge0$badge1$badge2\n$link0$link1$link2$link3$link4\n"
 
 ###
 #
