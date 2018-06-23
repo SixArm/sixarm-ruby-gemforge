@@ -29,9 +29,9 @@ for s in \
   "^<!--header-shut-->" \
   "^<!--install-open-->" \
   "^<!--install-shut-->" \
-  "$travis_regex" \
-  "$fury_regex" \
-  "$codeclimate_regex"
+  "$travis_regexp" \
+  "$fury_regexp" \
+  "$codeclimate_regexp"
 do
   file_text_must_match "$file" "$s"
 done
