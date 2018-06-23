@@ -17,7 +17,7 @@ codeclimate_regexp=$(badge_markdown_regexp "$(codeclimate_label)" "$(codeclimate
 
 for s in \
   "^# SixArm.com → Ruby → .*<br> " \
-  "^* Git: <https://github.com/sixarm/$_gem_name>" \
+  "^* Git: <https://github.com/$_team/$_repo>" \
   "^* Doc: <http://sixarm.com/$_gem_name/doc>" \
   "^* Gem: <https://rubygems.org/gems/$_gem_name>" \
   "^* Contact: " \
