@@ -10,20 +10,10 @@ _gem_name_version=$(gem_name_version)
 
 file="README.md"
 
-fury_uri="http://badge.fury.io/rb/$_gem_name"
-fury_img="https://badge.fury.io/rb/$_gem_name.svg"
-fury_badge="[![Gem Version]($fury_img)]($fury_uri)"
-fury_regex="\[!\[Gem Version\]($fury_img)\]($fury_uri)"
 
-travis_uri="https://travis-ci.org/$_team/$_repo"
-travis_img="https://travis-ci.org/$_team/$_repo.png"
-travis_badge="[![Build Status]($travis_img)]($travis_uri)"
-travis_regex="\[!\[Build Status\]($travis_img)]($travis_uri)"
-
-codeclimate_uri="https://codeclimate.com/github/$_team/$_repo/maintainability"
-codeclimate_img="https://api.codeclimate.com/v1/badges/.*/maintainability"
-codeclimate_badge="[![Code Climate Maintainability]($codeclimate_img)]($codeclimate_uri)"
-codeclimate_regex="\[!\[Code Climate Maintainability\]($codeclimate_img)\]($codeclimate_uri)"
+fury_regexp=$(badge_markdown_regexp "$(fury_label)" "$(fury_icon_uri)" "$(fury_link_uri)")
+travis_regexp=$(badge_markdown_regexp "$(travis_label)" "$(travis_icon_uri)" "$(travis_link_uri)")
+codeclimate_regexp=$(badge_markdown_regexp "$(codeclimate_label)" "$(codeclimate_icon_uri)" "$(codeclimate_link_uri)")
 
 for s in \
   "^# SixArm.com → Ruby → .*<br> " \
