@@ -22,11 +22,11 @@ file_section_refresh(){
 #
 ###
 
-badge0="[![Gem Version](https://badge.fury.io/rb/$_gem_name.svg)](http://badge.fury.io/rb/$_gem_name)\n"
-badge1="[![Build Status](https://travis-ci.org/$_team/$_repo.png)](https://travis-ci.org/$_team/$_repo)\n"
-badge2="[![Code Climate](https://codeclimate.com/github/$_team/$_repo.png)](https://codeclimate.com/github/$_team/$_repo)\n"
+badge0=$(badge_markdown "$(fury_label)" "$(fury_icon_uri)" "$(fury_link_uri)")
+badge1=$(badge_markdown "$(travis_label)" "$(travis_icon_uri)" "$(travis_link_uri)")
+badge2=$(badge_markdown "$(codeclimate_label)" "$(codeclimate_icon_uri)" "$(codeclimate_link_uri)")
 
-link0="* Git: <https://github.com/sixarm/$_team/$_repo>\n"
+link0="* Git: <https://github.com/$_team/$_repo>\n"
 link1="* Doc: <http://sixarm.com/$_gem_name/doc>\n"
 link2="* Gem: <https://rubygems.org/gems/$_gem_name>\n"
 link3="* Contact: Joel Parker Henderson, <joel@sixarm.com>\n"

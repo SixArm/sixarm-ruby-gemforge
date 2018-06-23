@@ -1,4 +1,4 @@
-#!bin/sh
+#!/bin/sh
 
 ## Functions
 
@@ -21,12 +21,31 @@ gem_version_major_bump() { x=$(gem_version_major); out $(($x + 1)); };
 
 ## Hosting
 
+badge_markdown() {
+  out "[![$1]($2)]($3)"
+}
+
+codeclimate_label() { out "Code Climate Maintainability"; };
+codeclimate_icon_uri() { out "https://api.codeclimate.com/v1/badges/$(codeclimate_badges_id)/maintanability"; };
+codeclimate_link_uri() { out "https://codeclimate.com/github/$(team)/$(repo)/maintainability"; };
+codeclimate_badges_id() { cat .codeclimate/badges/id; };
+
+fury_label() { out "Gem Version"; };
+fury_icon_uri() { out "https://badge.fury.io/rb/$(gem_name).svg"; };
+fury_link_uri() { out "http://badge.fury.io/rb/$(gem_name)"; };
+
+travis_label() { out "Build Status"; };
+travis_icon_uri() { out "https://travis-ci.org/$(team)/$(repo).png"; };
+travis_link_uri() { out "https://travis-ci.org/$(team)/$(repo)"; };
+
 github_uri() { out "https://github.com/$(team)/$(repo)"; };
+
 
 ## Configuration
 
 team() { out "SixArm"; };
 repo() { gem_name; };
+
 
 ## Assertions
 
