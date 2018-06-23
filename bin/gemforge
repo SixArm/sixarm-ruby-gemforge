@@ -25,7 +25,7 @@ badge_markdown() {
   out "[![$1]($2)]($3)"
 }
 
-codeclimate_label() { out "Code Climate Maintainability"; };
+codeclimate_label() { out "Code Climate"; };
 codeclimate_icon_uri() { out "https://api.codeclimate.com/v1/badges/$(codeclimate_badges_id)/maintanability"; };
 codeclimate_link_uri() { out "https://codeclimate.com/github/$(team)/$(repo)/maintainability"; };
 codeclimate_badges_id() { cat .codeclimate/badges/id; };
