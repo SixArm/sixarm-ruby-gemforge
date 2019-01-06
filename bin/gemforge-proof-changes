@@ -1,14 +1,25 @@
 #!/bin/bash
+
+##
+# Proof the file `CHANGES.md`.
+##
+
 set -euf
 DIR=$(dirname $0)
 . $DIR/gemforge
 
 file="CHANGES.md"
 
-grep -q "^# Changes$" "$file" ||
-  err "$file headline is wrong. ␟ Please fix to: ␟ # Changes"
+gemforge_proof_changes_headline_is_exact() {
+  grep -q "^# Changes$" "$file" ||
+    err "$file headline is wrong. ␟ Please fix to: ␟ # Changes"
+}
 
-cat $file | grep -v ' etc\.$' | grep -q '\.$' &&
-  err "$file has line that ends in period. ␟ Please delete period."
+gemforge_proof_list_item_does_not_end_with_period() {
+  cat $file | grep '^ *\* ' | grep -v ' etc\.$' | grep -q '\.$' &&
+    err "$file has line that ends in period. ␟ Please delete period."
+}
 
+gemforge_proof_changes_headline_is_exact
+gemforge_proof_list_item_does_not_end_with_period
 exit 0

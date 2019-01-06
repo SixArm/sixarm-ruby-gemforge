@@ -1,4 +1,9 @@
 #!/bin/bash
+
+##
+# Fix items, including repairing, refreshing, updating, etc.
+##
+
 set -euf
 DIR=$(dirname $0)
 . $DIR/gemforge
@@ -7,52 +12,60 @@ _gem_name=$(gem_name)
 _gem_version=$(gem_version)
 _gem_name_version=$(gem_name_version)
 
-##
-#
-# Fix items, including repairing, refreshing, updating, etc.
-#
-##
-
-# We want a file name `VERSION` that contains just the version number.
+# Ensure the file `VERSION` contains the version number.
 fix_version() {
   grep -q "^$_gem_version$" VERSION || out "$_gem_version" > VERSION
 }
 
-# We want a typical set of files. If any don't exist, then copy some
-# of our typical files from a different repo that we typically use.
+# Ensure we have our preferred top-level files, and if needed, copy them from our template.
 fix_top_files() {
   for path in ".gitignore" ".rspec" ".travis.yml" "CONTRIBUTING.md" "LICENSE.md" "Gemfile" "Gemfile.lock" "Rakefile"
   do
-    [ -e $path ] || cp ~/git/sixarm/sixarm_ruby_week/$path .
+    [ -e $path ] || cp $DIR/gemforge_new_tmplates/$path .
   done
 }
 
+# Ensure the Rakefile has a default task that runs the default tests.
 fix_rakefile_task_default() {
-  grep -q "task :default => \[:test\]" Rakefile || out "task :default => [:test]" >> Rakefile
+  grep -q "task :default => \[:test\]" Rakefile || 
+    out "task :default => [:test]" >> Rakefile &&
+    git commit -m "Add Rakefile default task to run the test task" Rakefile
+ 
 }
 
+# Ensure the Rakefile doesn't have more than one default task.
+fix_rakefile_task_default_repeat_lines() {
+  n=$(grep -c "^task: default " Rakefile)
+  if [ "$n" -gt "1" ];then
+    sed -i.tmp '$!N; /^\(task :default .*\)\n\1$/!P; D' Rakefile
+    rm -f "Rakefile.tmp"
+    git commit -m "Fix Rakefile duplicate default tasks" Rakefile
+  fi
+fi 
+
+# Change any old quote-arrow to new Unicode right-arrow.
 fix_readme_headline_arrows() {
   sed -i.tmp 's/SixArm.com » Ruby » /SixArm.com → Ruby → /g' "$_gem_name.gemspec" README.md
   rm -f "$_gem_name.gemspec.tmp"
   rm -f "README.md.tmp"
 }
 
-fix_ds_store() {
-  grep -q ".DS_Store" .gitignore || out ".DS_Store" >> .gitignore
-}
-
+# If the coverage directory is missing, then generate it.
 fix_coverage(){
-  [ -e "coverage" ] || gemforge-test
+  [ -e "coverage" ] || gemforge-update-coverage
 }
 
+# If the doc directory is missing, then generate it.
 fix_doc() {
   [ -e "doc" ] || gemforge-update-doc
 }
 
+# If the gem file is missing, then generate it.
 fix_gemspec() {
   [ -e "$_gem_name_version.gem" ] || gemforge-update-build
 }
 
+# If the SHA file is missing, then generate it.
 fix_sha() {
   [ -e "$_gem_name_version-sha512.txt" ] || gemforge-sha512
 }
@@ -64,8 +77,9 @@ fix_fill_in() {
 fix_version
 fix_top_files
 fix_rakefile_task_default
+fix_rakefile_task_default_repeat_lines
 fix_readme_headline_arrows
-fix_ds_store
+fix_coverage
 fix_doc
 fix_gemspec
 fix_sha

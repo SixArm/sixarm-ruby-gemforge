@@ -1,3 +1,11 @@
+
+test -e test &&
+find test test -type f -name \*.rb | 
+xargs -I{} grep -L '^ \+expect(' '{}' | 
+xargs -I{} grep -l '.must_' |
+xargs -I{} sed -i 's/\(^ *\)\([^ }].*\)\.\(must\|wont\)/\1expect(\2).\3/' "{}"
+
+test -e spec &&
 find test spec -type f -name \*.rb | 
 xargs -I{} grep -L '^ \+expect(' '{}' | 
 xargs -I{} grep -l '.must_' |

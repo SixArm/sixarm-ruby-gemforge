@@ -1,11 +1,19 @@
 #!/bin/bash
+
+##
+# Proof lib files
+###
+
 set -euf
 DIR=$(dirname $0)
 . $DIR/gemforge
 
-for file in `find lib -type f -name "*.rb"`
-do
-    file_line_num_must_eq "$file" 1 "# -*- coding: utf-8 -*-"
-done
+gemforge_proof_lib_files_start_with_utf8_marker() {
+    for file in `find lib -type f -name "*.rb"`
+    do
+        file_line_num_must_eq "$file" 1 "# -*- coding: utf-8 -*-"
+    done
+}
 
+gemforge_proof_lib_files_start_with_utf8_marker
 exit 0

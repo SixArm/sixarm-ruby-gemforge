@@ -1,4 +1,9 @@
 #!/bin/bash
+
+##
+# Proof the *.gemspec file.
+##
+
 set -euf
 DIR=$(dirname $0)
 . $DIR/gemforge
@@ -33,6 +38,8 @@ done
 
 for s in \
   "^    \".gemtest\"," \
+  "^    \".rspec\"," \
+  "^    \".travis.yml\"," \
   "^    \"CHANGES.md\"," \
   "^    \"CONTRIBUTING.md\"," \
   "^    \"LICENSE.md\"," \

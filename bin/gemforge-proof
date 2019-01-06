@@ -1,4 +1,21 @@
 #!/bin/sh
+
+##
+# Proof a gem. This runs all the proof commands.
+#
+# Syntax:
+#
+#     gemforge-proof
+#
+# Example:
+#
+#     $ gemforge-proof
+#
+# Typical use is running this command before doing anything public,
+# such as pushing a commit to a remote repo, or publishing the gem, etc.
+
+##
+
 set -euf
 DIR=$(dirname $0)
 . $DIR/gemforge

@@ -4,16 +4,13 @@ DIR=$(dirname $0)
 . $DIR/gemforge
 
 # Delete existing
-for f in coverage; do
-  if [ -e "$f" ]; then
-    git rm -fr "$f" || true
-    rm -fr "$f" || true
-  fi
+for f in coverage/*; do
+  [ -e "$f" ] || continue
+  git rm -fr "$f" || true
+  rm -fr "$f" || true
 done
+
+big "coverage ok"
 
 # Create fresh
 bundle exec rake
-
-# Commit
-git add coverage
-git commit -m "Update coverage" coverage

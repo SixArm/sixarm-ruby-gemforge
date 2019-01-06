@@ -1,12 +1,20 @@
 #!/bin/sh
+
+##
+# gemforge-new: create a new gem directory structure and copy in our starter files                                          # Syntax:   
+#
+# Syntax:
+#
+#     gemforge-new my_gem_dir
+#
+# Example:
+#
+#     $ gemforge-new ~/foo/goo/hoo/demo
+##
+
 set -o errexit
 DIR=$(dirname $0)
 . $DIR/gemforge
-
-##
-# Ruby gem:create a new gem directory structure and copy in some starter files                                          # Syntax:   
-#   gemforge-new my_gem_dir
-##
 
 basename=$1
 camelize=`camelize $basename`

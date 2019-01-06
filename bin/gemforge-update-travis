@@ -1,5 +1,4 @@
 cat << EOF > .travis.yml
-
 before_install:
 - gem update --system
 
