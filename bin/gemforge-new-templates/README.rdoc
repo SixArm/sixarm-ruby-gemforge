@@ -1,7 +1,7 @@
 
-= SixArm Ruby Gem
+= SixArm.com Ruby Gem
 
 Author:: Joel Parker Henderson, joel@joelparkerhenderson.com
-Copyright:: Copyright (c) 2010-2011 Joel Parker Henderson
+Copyright:: Copyright (c) 2010-2019 Joel Parker Henderson
 License:: See LICENSE.txt file
 

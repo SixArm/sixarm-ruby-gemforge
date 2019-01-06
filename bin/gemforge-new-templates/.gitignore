@@ -1,0 +1,6 @@
+/.bundle
+/.yardoc
+/vendor/
+/Gemfile.lock
+/coverage/
+/coverage.data

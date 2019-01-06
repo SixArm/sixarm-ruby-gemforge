@@ -2,10 +2,15 @@ LICENSE
 
 You may choose any of these licenses:
 
-  - CreativeCommons License, Non-commercial Share Alike
-  - LGPL, GNU Lesser General Public License
-  - MIT License
-  - Ruby License
+  - Apache-2.0: Apache License, Version 2.0
+  - Artistic-2.0 License
+  - BSD-3-Clause: The 3-Clause BSD License
+  - CDDL-1.0: Common Development and Distribution License 1.0
+  - EPL-1.0: Eclipse Public License 1.0
+  - GPL-2.0: GNU General Public License version 2
+  - GPL-3.0: GNU General Public License version 3
+  - MIT: The MIT License
+  - MPL-2.0: Mozilla Public License 2.0
 
 THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
 IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
