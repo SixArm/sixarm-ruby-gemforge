@@ -1,0 +1,9 @@
+gemforge-update-build
+gemforge-update-coverage
+gemforge-update-doc
+gemforge-update-gemspec-development-dependency-gem-versions
+gemforge-update-license
+gemforge-update-minitest-syntax-to-use-expect-method
+gemforge-update-readme
+gemforge-update-travis
+gemforge-update-version
