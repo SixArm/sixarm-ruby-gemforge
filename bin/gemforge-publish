@@ -61,9 +61,9 @@ cmd "yard" || die "cmd yard"
 gemforge-rm-old-files
 gemforge-update-build
 gemforge-update-version
-gemforge-sha512     || exit "gemforge-sha512 failed for gem $(gem_name_version)"
-gemforge-update-doc || exit "gemforge-update-doc failed for gem $(gem_name_version)"
-gemforge-proof      || exit "gemforge-proof failed for gem $(gem_name_version)"
+gemforge-sha512     || die "gemforge-sha512 failed for gem $(gem_name_version)"
+gemforge-update-doc || die "gemforge-update-doc failed for gem $(gem_name_version)"
+gemforge-proof      || die "gemforge-proof failed for gem $(gem_name_version)"
 
 ### PUBLISH
 
@@ -72,5 +72,3 @@ gemforge-proof      || exit "gemforge-proof failed for gem $(gem_name_version)"
 #out 'PUBLISH TO REMOTE HOST...' && gemforge-publish-to-remote-host && out '...DONE'
 out 'PUBLISH TO RUBYDOC...' && gemforge-publish-to-rubydoc && out '...DONE'
 out 'PUBLISH TO RUBYGEMS...' && gemforge-publish-to-rubygems && out '...DONE'
-
-
