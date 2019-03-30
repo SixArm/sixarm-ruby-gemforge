@@ -16,10 +16,14 @@ gemforge_proof_changes_headline_is_exact() {
 }
 
 gemforge_proof_list_item_does_not_end_with_period() {
-  cat $file | grep '^ *\* ' | grep -v ' etc\.$' | grep -q '\.$' &&
+  c=$(cat $file | grep '^ *\* ' | grep -v ' etc\.$' | grep -c '\.$')
+  [ $c -eq 0 ] ||
     err "$file has line that ends in period. ␟ Please delete period."
 }
 
+echo "t1"
 gemforge_proof_changes_headline_is_exact
+echo "t2"
 gemforge_proof_list_item_does_not_end_with_period
+echo "t3"
 exit 0
