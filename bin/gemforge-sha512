@@ -17,9 +17,9 @@ DIR=$(dirname $0)
 #   * sha512sum: typical on Linux
 #   * shasum: typical on OSX
 #
-sha=$(command -v sha512sum >/dev/null 2>&1 && out "sha512sum" ||
-      command -v shasum    >/dev/null 2>&1 && out "shasum -a 512" ||
-      out "")
+sha=$(command -v sha512sum >/dev/null 2>&1 && out "sha512sum") ||
+    $(command -v shasum    >/dev/null 2>&1 && out "shasum -a 512") ||
+    $(out "")
 
 if [ "$sha" = "" ]; then
     die "The sha command is missing e.g. 'sha512sum' or 'shasum -a 512'"
