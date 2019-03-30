@@ -11,19 +11,16 @@ DIR=$(dirname $0)
 file="CHANGES.md"
 
 gemforge_proof_changes_headline_is_exact() {
-  grep -q "^# Changes$" "$file" ||
+  cat "$file" | grep -q "^# Changes$" "$file" ||
     err "$file headline is wrong. ␟ Please fix to: ␟ # Changes"
 }
 
 gemforge_proof_list_item_does_not_end_with_period() {
-  c=$(cat $file | grep '^ *\* ' | grep -v ' etc\.$' | grep -c '\.$')
-  [ $c -eq 0 ] ||
-    err "$file has line that ends in period. ␟ Please delete period."
+  [ $(cat $file | grep '^ *\* ' | grep -v ' etc\.$' | grep -c '\.$' || : ) == 0 ] ||
+    err "$file has line that ends in a period. ␟ Please delete period."
 }
 
-echo "t1"
 gemforge_proof_changes_headline_is_exact
-echo "t2"
 gemforge_proof_list_item_does_not_end_with_period
-echo "t3"
+
 exit 0
