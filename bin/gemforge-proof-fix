@@ -27,10 +27,10 @@ fix_top_files() {
 
 # Ensure the Rakefile has a default task that runs the default tests.
 fix_rakefile_task_default() {
-  grep -q "task :default => \[:test\]" Rakefile || 
+  grep -q "task :default => \[:test\]" Rakefile ||
     out "task :default => [:test]" >> Rakefile &&
     git commit -m "Add Rakefile default task to run the test task" Rakefile
- 
+
 }
 
 # Ensure the Rakefile doesn't have more than one default task.
@@ -41,7 +41,7 @@ fix_rakefile_task_default_repeat_lines() {
     rm -f "Rakefile.tmp"
     git commit -m "Fix Rakefile duplicate default tasks" Rakefile
   fi
-fi 
+}
 
 # Change any old quote-arrow to new Unicode right-arrow.
 fix_readme_headline_arrows() {
