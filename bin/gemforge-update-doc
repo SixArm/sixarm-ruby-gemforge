@@ -11,6 +11,6 @@ for f in .yardoc doc/*; do
 done
 
 # Create fresh
-mkdir doc
+mkdir -p doc
 yardoc lib/{*.rb,**/*.rb}
 chmod -R +r doc/
