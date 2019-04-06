@@ -1,4 +1,7 @@
-sed -i '
+#!/bin/sh
+
+sed=${SED:=sed}
+"$sed" -i '
 s/s.add_development_dependency(.minitest.,.*/s.add_development_dependency("minitest", ">= 5.11.1", "< 6")/;
 s/s.add_development_dependency(.sixarm_ruby_minitest_extensions.,.*/s.add_development_dependency("sixarm_ruby_minitest_extensions", ">= 1.0.8", "< 2")/;
 s/s.add_development_dependency(.rake.,.*/s.add_development_dependency("rake", ">= 12.3.0", "< 13")/;
