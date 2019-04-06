@@ -20,8 +20,8 @@ done
 # Must not have
 for s in \
   "doc" \
-  ".DS_Store"
-  "/.coveralls.yml" \
+  ".DS_Store" \
+  "/.coveralls.yml"
 do
   file_text_must_not_match "$file" "^$s$"
 done
