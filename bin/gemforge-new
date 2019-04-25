@@ -18,7 +18,7 @@ DIR=$(dirname $0)
 
 basename=$1
 camelize=`camelize $basename`
-source='/home/sixarm/github/sixarm_ruby_gemforge/gemforge-new-templates'
+source='/home/sixarm/github/sixarm_ruby_gemforge/templates'
 
 mkdir $1
 cd $1

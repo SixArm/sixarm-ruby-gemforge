@@ -21,7 +21,7 @@ fix_version() {
 fix_top_files() {
   for path in ".gitignore" ".rspec" ".travis.yml" "CONTRIBUTING.md" "LICENSE.md" "Gemfile" "Gemfile.lock" "Rakefile"
   do
-    [ -e $path ] || cp $DIR/gemforge_new_tmplates/$path .
+    [ -e $path ] || cp $DIR/../templates/$path .
   done
 }
 
