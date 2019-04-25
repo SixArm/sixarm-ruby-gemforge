@@ -6,5 +6,3 @@ DIR=$(dirname $0)
 
 path=".travis.yml"
 rsync $DIR/../templates/.travis.yml .
-git add "$path"
-git commit -m "Update Travis configuration" "$path"
