@@ -39,9 +39,7 @@ done
 for s in \
   "^* Changes: See CHANGES.md file." \
   "^* License: See LICENSE.md file." \
-  "^* Helping: See CONTRIBUTING.md file." \
-  "Coveralls" \
-  "coveralls"
+  "^* Helping: See CONTRIBUTING.md file."
 do
   file_text_must_not_match "$file" "$s"
 done
