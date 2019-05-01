@@ -55,3 +55,23 @@ To update the README and publish it:
       echo "The script is in $dir"
       popd > /dev/null
     done
+
+
+## Archive examples
+
+To fix permissions:
+
+    for x in .bundle .git .github coverage doc lib test; do
+      find $x -type d -exec chmod 755 {} \;
+      find $x -type f -exec chmod 644 {} \;
+    done
+    g a .bundle .git .github coverage doc lib test
+    g cm "Fix permissions" .bundle .git .github coverage doc lib test
+
+To drop Coveralls:
+
+    x=".coveralls.yml";      g rm -rf $x; rm -rf $x; g a $x
+    x="bin/stubs/coveralls"; g rm -rf $x; rm -rf $x; g a $x
+    x="bin/coveralls";       g rm -rf $x; rm -rf $x; g a $x
+    gsed -i '/.*coveralls.*/d' *gemspec; g a *gemspec
+    g cm "Drop Coveralls" .coveralls.yml bin/stubs/coveralls bin/coveralls *gemspec

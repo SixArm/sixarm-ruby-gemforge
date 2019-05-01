@@ -1,0 +1,59 @@
+version: "2"
+languages:
+  Ruby: true
+  JavaScript: true
+exclude_paths:
+  - "config/"
+  - "coverage/"
+  - "db/"
+  - "dist/"
+  - "doc/"
+  - "docs/"
+  - "features/"
+  - "**/node_modules/"
+  - "script/"
+  - "Spec/"
+  - "Specs/"
+  - "**/spec/"
+  - "**/specs/"
+  - "**/test/"
+  - "**/tests/"
+  - "Test/"
+  - "Tests/"
+  - "**/vendor/"
+  - "**/*_test.go"
+  - "**/*.d.ts"
+checks:
+  argument-count:
+    enabled: true
+  complex-logic:
+    enabled: true
+  file-lines:
+    enabled: false
+  method-complexity:
+    enabled: true
+  method-count:
+    enabled: true
+  method-lines:
+    enabled: false
+  nested-control-flow:
+    enabled: true
+  return-statements:
+    enabled: false
+  similar-code:
+    enabled: true
+  identical-code:
+    enabled: true
+plugins:
+  brakeman:
+    enabled: true
+  bundler-audit:
+    enabled: true
+  csslint:
+    enabled: true
+  eslint:
+    enabled: true
+  reek:
+    enabled: true
+  rubocop:
+    enabled: true
