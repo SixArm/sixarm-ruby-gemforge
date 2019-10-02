@@ -1,7 +1,8 @@
 gemforge-update-build
+gemforge-update-sha
 gemforge-update-coverage
 gemforge-update-doc
-gemforge-update-gemspec-development-dependency-gem-versions
+gemforge-update-gemspec-dependency-gem-versions
 gemforge-update-license
 gemforge-update-minitest-syntax-to-use-expect-method
 gemforge-update-readme
