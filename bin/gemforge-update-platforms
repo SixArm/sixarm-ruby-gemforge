@@ -1,0 +1,25 @@
+#!/bin/sh
+set -euf
+DIR=$(dirname $0)
+. $DIR/gemforge
+
+gemforge_update_platforms(){
+	rm -rf .bundle/
+	rm -rf vendor/cache/
+	rm -rf Gemfile.lock
+	bundle lock --add-platform arm64-darwin-22
+	bundle lock --add-platform ruby
+	bundle lock --add-platform x86_64-linux
+	bundle_install
+	git commit -m "Add platforms" Gemfile.lock
+}
+
+file="Gemfile.lock"
+
+for s in \
+  "^  arm64-darwin-22$" \
+  "^  ruby$" \
+  "^  x86_64-linux$" \
+do
+  file_text_must_match "$file" "$s" || gemforge_update_platforms
+done
