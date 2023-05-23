@@ -1,0 +1,10 @@
+#!/bin/sh
+set -euf
+DIR=$(dirname $0)
+. $DIR/gemforge
+
+gsed -i 's#/opt/keys/#/opt/key/#g' *.gemspec
+gsed -i 's#/sixarm-rsa-4096-x509-20180113-#/sixarm-ruby-gem-signing-20230504-#g' *.gemspec
+git add *.gemspec
+git commit -m "Fix gemspec signing_key and cert_chain" *.gemspec
+
