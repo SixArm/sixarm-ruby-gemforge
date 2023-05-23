@@ -25,8 +25,8 @@ for s in \
   "^  s.email          = \"sixarm@sixarm.com\"" \
   "^  s.homepage       = \"http://sixarm.com/\"" \
   "^  s.licenses       = \[.*\]" \
-  "^  s.signing_key    = \".*/sixarm-rsa-4096-x509-20180113-private.pem\"" \
-  "^  s.cert_chain     = \[\".*/sixarm-rsa-4096-x509-20180113-public.pem\"\]" \
+  "^  s.signing_key    = \".*/sixarm-ruby-gem-signing-20230504-private.pem\"" \
+  "^  s.cert_chain     = \[\".*/sixarm-ruby-gem-signing-20230504-public.pem\"\]" \
   "^  s.platform       = Gem::Platform::RUBY" \
   "^  s.require_path   = \"lib\"" \
   "^  s.files = \[" \
