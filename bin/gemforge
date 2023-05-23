@@ -29,6 +29,10 @@ curl=${CURL:=curl}
 grep=${GREP:=grep}
 sed=${SED:=sed}
 
+bundle_install() {
+  BUNDLE_PATH="vendor/bundle" BUNDLE_BIN="vendor/bundle/bin" bundle install
+}
+
 ## Gem variants
 
 gem_name() { out $(gemspec-cat | gemspec-to-gem-name); };
@@ -55,10 +59,6 @@ codeclimate_badges_id() { cat .codeclimate/badges/id; };
 fury_label() { out "Gem Version"; };
 fury_icon_uri() { out "https://badge.fury.io/rb/$(gem_name).svg"; };
 fury_link_uri() { out "http://badge.fury.io/rb/$(gem_name)"; };
-
-travis_label() { out "Build Status"; };
-travis_icon_uri() { out "https://travis-ci.org/$(team)/$(repo).png"; };
-travis_link_uri() { out "https://travis-ci.org/$(team)/$(repo)"; };
 
 github_uri() { out "https://github.com/$(team)/$(repo)"; };
 

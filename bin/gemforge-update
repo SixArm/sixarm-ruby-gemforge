@@ -1,5 +1,5 @@
 gemforge-update-build
-gemforge-update-sha
+gemforge-update-sha512
 gemforge-update-coverage
 gemforge-update-doc
 gemforge-update-gemspec-dependency-gem-versions
@@ -7,4 +7,6 @@ gemforge-update-license
 gemforge-update-minitest-syntax-to-use-expect-method
 gemforge-update-readme
 gemforge-update-travis
+gemforge-update-gitignore-gemfile-lock
+gemforge-update-sixarm-ruby-gem-signing
 gemforge-update-version
