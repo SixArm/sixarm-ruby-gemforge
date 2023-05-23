@@ -1,0 +1,9 @@
+#!/bin/sh
+set -o errexit
+DIR=$(dirname $0)
+. $DIR/gemforge
+
+gsed -i '/^\/Gemfile.lock$/d' .gitignore
+git add .gitignore
+git add Gemfile.lock
+git commit -m "Add Gemfile.lock" .gitignore Gemfile.lock
