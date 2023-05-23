@@ -1,5 +1,6 @@
 #!/bin/sh
 set -o errexit
+
 DIR=$(dirname $0)
 . $DIR/gemforge
 
@@ -24,8 +25,7 @@ file_section_refresh(){
 ###
 
 badge0=$(badge_markdown "$(fury_label)" "$(fury_icon_uri)" "$(fury_link_uri)")
-badge1=$(badge_markdown "$(travis_label)" "$(travis_icon_uri)" "$(travis_link_uri)")
-badge2=$(badge_markdown "$(codeclimate_label)" "$(codeclimate_icon_uri)" "$(codeclimate_link_uri)")
+badge1=$(badge_markdown "$(codeclimate_label)" "$(codeclimate_icon_uri)" "$(codeclimate_link_uri)")
 
 link0="* Git: <https://github.com/$_team/$_repo>"
 link1="* Doc: <http://sixarm.com/$_gem_name/doc>"
@@ -33,7 +33,7 @@ link2="* Gem: <https://rubygems.org/gems/$_gem_name>"
 link3="* Contact: Joel Parker Henderson, <joel@sixarm.com>"
 link4="* Project: [changes](CHANGES.md), [license](LICENSE.md), [contributing](CONTRIBUTING.md)."
 
-file_section_refresh "$file" "header" "\n\n$badge0\n$badge1\n$badge2\n\n$link0\n$link1\n$link2\n$link3\n$link4\n\n"
+file_section_refresh "$file" "header" "\n\n$badge0\n$badge1\n\n$link0\n$link1\n$link2\n$link3\n$link4\n\n"
 
 ###
 #
@@ -54,5 +54,6 @@ gemfile2="    gem '$_gem_name'\n\n"
 req0="### Require\n\n"
 req1="To require the gem in your code:\n\n"
 req2="    require '$_gem_name'\n\n"
+
 
 file_section_refresh "$file" "install" "\n\n$top0$gem0$gem1$gem2$gemfile0$gemfile1$gemfile2$req0$req1$req2"
