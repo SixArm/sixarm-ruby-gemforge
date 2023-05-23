@@ -9,7 +9,6 @@ file=".gitignore"
 for s in \
   "/.bundle" \
   "/.yardoc" \
-  "/Gemfile.lock" \
   "/vendor/" \
   "/coverage/" \
   "/coverage.data"
