@@ -10,7 +10,6 @@ _gem_name_version=$(gem_name_version)
 
 file="README.md"
 
-
 fury_regexp=$(badge_markdown_regexp "$(fury_label)" "$(fury_icon_uri)" "$(fury_link_uri)")
 travis_regexp=$(badge_markdown_regexp "$(travis_label)" "$(travis_icon_uri)" "$(travis_link_uri)")
 codeclimate_regexp=$(badge_markdown_regexp "$(codeclimate_label)" "$(codeclimate_icon_uri)" "$(codeclimate_link_uri)")
@@ -29,7 +28,6 @@ for s in \
   "^<!--header-shut-->" \
   "^<!--install-open-->" \
   "^<!--install-shut-->" \
-  "$travis_regexp" \
   "$fury_regexp" \
   "$codeclimate_regexp"
 do
