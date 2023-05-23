@@ -14,9 +14,9 @@ Gem::Specification.new do |s|
   s.author         = "SixArm.com"
   s.email          = "sixarm@sixarm.com"
   s.homepage       = "http://sixarm.com"
-  s.licenses       = ["Apache-2.0", "Artistic-2.0", "BSD-3-Clause", "GPL-3.0", "MIT", "MPL-2.0"]
-  s.signing_key    = "/opt/sixarm/sixarm-rsa-4096-x509-20180113-private.pem"
-  s.cert_chain     = ["/sixarm-rsa-4096-x509-20180113-public.pem.gpg"]
+  s.licenses       = ["Apache-2.0", "Artistic-2.0", "BSD-3-Clause", "GPL-2.0", "GPL-3.0", "MIT", "MPL-2.0"]
+  s.signing_key    = "/opt/key/sixarm-ruby-gem-signing-20230504-private.pem"
+  s.cert_chain     = ["/opt/key/sixarm-ruby-gem-signing-20230504-public.pem"]
 
   s.platform       = Gem::Platform::RUBY
   s.require_path   = "lib"
